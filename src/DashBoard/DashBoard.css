@@ -1,0 +1,9 @@
+.dashBoard {
+    position: absolute;
+    width: auto;
+    height: 174px;
+    left: 43px;
+    right: 43px;
+    top: 120px;
+    background: #ECECEC;
+}

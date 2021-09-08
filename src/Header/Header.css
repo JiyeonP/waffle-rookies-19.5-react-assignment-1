@@ -1,0 +1,33 @@
+.Header {
+  position: relative;
+  width: auto;
+  height: 76px;
+  left: 43px;
+  top: 34px;
+}
+
+.waffleLogo {
+  position: absolute;
+  width: 54px;
+  height: 58px;
+  left: 4px;
+  top: 9px;
+}
+
+.title {
+  position: absolute;
+  width: 380px;
+  height: 31px;
+  left: 80px;
+  top: 23px;
+  margin: 0px;
+  padding: 0px;
+
+  font-family: Abel;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 31px;
+
+  color: black;
+}
