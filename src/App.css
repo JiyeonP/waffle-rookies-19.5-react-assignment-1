@@ -1,8 +1,25 @@
-.App {
-  background-color: white;
+.AppWrapper {
   position: fixed;
-  left:0;
+  left: 0;
   top: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+}
+
+.App {
+  margin: auto;
+  height: 100%;
+  width: 760px;
+  top: 20px;
+
+  background-color: white;
+}
+
+.divideLine {
+  position: relative;
+  border-left: 1px solid #e4e4e4;
+  width: 0px;
+  top: -330px;
+  height: 420px;
+  left: 50%;
 }

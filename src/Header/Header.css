@@ -1,9 +1,9 @@
 .Header {
   position: relative;
-  width: auto;
   height: 76px;
-  left: 43px;
-  top: 34px;
+  left: 20px;
+  top: 30px;
+  display: flex;
 }
 
 .waffleLogo {
@@ -11,7 +11,6 @@
   width: 54px;
   height: 58px;
   left: 4px;
-  top: 9px;
 }
 
 .title {
@@ -19,15 +18,11 @@
   width: 380px;
   height: 31px;
   left: 80px;
-  top: 23px;
+  top: 16px;
   margin: 0px;
   padding: 0px;
 
   font-family: Abel;
-  font-style: normal;
-  font-weight: normal;
   font-size: 24px;
   line-height: 31px;
-
-  color: black;
 }
