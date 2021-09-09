@@ -2,7 +2,6 @@ import "./StudentList.css";
 import Student from "./Student";
 
 const StudentList = ({showList, selectedStd, selectStd, unselectStd}) => {
-    console.log(selectedStd);
     return (
     <div className="listBox">
       <div className="listHeader">
