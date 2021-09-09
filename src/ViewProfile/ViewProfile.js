@@ -1,19 +1,42 @@
 import "./ViewProfile.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
-  const [newName, setNewName] = useState(selectedStd.name);
-  const [newGrade, setNewGrade] = useState(selectedStd.grade);
-  const [newProfileImg, setNewProfileImg] = useState(selectedStd.profileImg);
-  console.log(selectedStd);
+const ViewProfile = ({
+  stdList,
+  selectedStd,
+  setSelectedStd,
+  stdChange,
+  stdDelete,
+}) => {
+  const [changedStd, setChangedStd] = useState(selectedStd);
 
-  const handleStdChange = () => {
-    const changedStd = {
-      id: selectedStd.id,
-      name: newName,
-      grade: newGrade,
-      profileImg: newProfileImg,
-    };
+  useEffect(() => {
+    setChangedStd(selectedStd);
+  }, [selectedStd]);
+
+  const handleNameChange = (e) => {
+    const newChangedStd = { ...changedStd, name: e.target.value };
+    setChangedStd(newChangedStd);
+  };
+
+  const handleGradeChange = (e) => {
+    const newChangedStd = { ...changedStd, grade: Number(e.target.value) };
+    setChangedStd(newChangedStd);
+  };
+
+  const handleProfileImgChange = (e) => {
+    const newChangedStd = { ...changedStd, profileImg: e.target.value };
+    setChangedStd(newChangedStd);
+  };
+
+  const handleSave = () => {
+    if (
+      ![2, 3].includes(changedStd.name.length) ||
+      ![1, 2, 3].includes(Number(changedStd.grade))
+    ) {
+      return window.alert("이름 또는 학년이 올바르지 않습니다.");
+    }
+
     if (
       stdList.filter(
         (item) =>
@@ -24,11 +47,13 @@ const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
     ) {
       return window.alert("해당 학년에 동명이인이 존재합니다. (수정 불가)");
     }
+
     stdChange(changedStd);
   };
 
   const handleStdDelete = () => {
     stdDelete(selectedStd.id);
+    setSelectedStd({ id: false, name: false, grade: false, profileImg: false });
   };
 
   return (
@@ -38,7 +63,7 @@ const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
       ) : (
         <div className="profilePage">
           <div className="profileHeader">
-            <button className="saveButton" onClick={handleStdChange}>
+            <button className="saveButton" onClick={handleSave}>
               저장
             </button>
             <button className="deleteButton" onClick={handleStdDelete}>
@@ -64,8 +89,8 @@ const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
               <input
                 className="editInput"
                 placeholder="이름을 입력하세요."
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
+                value={changedStd.name}
+                onChange={(e) => handleNameChange(e)}
               />
             </div>
             <div className="editLine">
@@ -75,8 +100,8 @@ const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
                 type="number"
                 min="1"
                 max="3"
-                value={newGrade}
-                onChange={(e) => setNewGrade(e.target.value)}
+                value={changedStd.grade}
+                onChange={(e) => handleGradeChange(e)}
               />
             </div>
             <div className="editLine">
@@ -84,8 +109,8 @@ const ViewProfile = ({ stdList, selectedStd, stdChange, stdDelete }) => {
               <input
                 className="editInput"
                 placeholder="프로필 사진 주소를 입력하세요."
-                value={newProfileImg}
-                onChange={(e) => setNewProfileImg(e.target.value)}
+                value={changedStd.profileImg}
+                onChange={(e) => handleProfileImgChange(e)}
               />
             </div>
           </div>

@@ -1,9 +1,12 @@
 .wrapper {
-    display: none;
+  visibility: hidden;
+  opacity: 0%;
+  transition: all 0.5s;
 }
 
 .wrapper.show {
-  display: unset;
+  visibility: visible;
+  opacity: 100%;
 }
 
 .backBox {
@@ -18,71 +21,71 @@
 }
 
 .stdAddPage {
-    position: absolute;
-    width: 300px;
-    height: 130px;
-    left: calc(50% - 150px);
-    top: calc(50% - 65px);
-    display: table;
-    padding: 10px;
+  position: absolute;
+  width: 300px;
+  height: 130px;
+  left: calc(50% - 150px);
+  top: calc(50% - 65px);
+  display: table;
+  padding: 10px;
 
-    background-color: white;
-    border: 1px solid #000000;
-    box-sizing: border-box;
+  background-color: white;
+  border: 1px solid #000000;
+  box-sizing: border-box;
 }
 
 .addLine {
-    margin: 5px;
-    width: 100%;
-    height: 20px;
+  margin: 5px;
+  width: 100%;
+  height: 20px;
 
-    display: flex;
+  display: flex;
 }
 
 .addIndex {
-    position: relative;
-    width: 60px;
-    left: 10px;
-    line-height: 0px;
+  position: relative;
+  width: 60px;
+  left: 10px;
+  line-height: 0px;
 
-    font-size: 10px;
-    font-family: Abel;
+  font-size: 10px;
+  font-family: Abel;
 }
 
 .addInput {
-    position: relative;
-    width: 200px;
-    height: 20px;
-    left: 0px;
+  position: relative;
+  width: 200px;
+  height: 20px;
+  left: 0px;
 
-    font-size: 10px;
-    background: #f4f4f4;
-    border: 1px solid #c2c2c2;
-    box-sizing: border-box;
+  font-size: 10px;
+  background: #f4f4f4;
+  border: 1px solid #c2c2c2;
+  box-sizing: border-box;
 }
 
 .close {
-    position: absolute;
-    width: 45px;
-    height: 25px;
-    top: 95px;
-    left: 180px;
-    background-color: #C3B0FB;
-    border-width: 1px;
-    border-color: #B3A0EB;
-    border-radius: 5px;
-    font-size: 11px;
+  position: absolute;
+  width: 45px;
+  height: 25px;
+  top: 95px;
+  left: 180px;
+  background-color: #c3b0fb;
+  border-width: 1px;
+  border-color: #b3a0eb;
+  border-radius: 5px;
+  font-size: 11px;
 }
 
 .add {
-    position: absolute;
-    width: 45px;
-    height: 25px;
-    top: 95px;
-    left: 230px;
-    background-color: #FAFAD2;
-    border-width: 1px;
-    border-color: #EAEAC2;
-    border-radius: 5px;
-    font-size: 11px;
+  position: absolute;
+  width: 45px;
+  height: 25px;
+  top: 95px;
+  left: 230px;
+  background-color: #fafad2;
+  border-width: 1px;
+  border-color: #eaeac2;
+  border-radius: 5px;
+  font-size: 11px;
 }

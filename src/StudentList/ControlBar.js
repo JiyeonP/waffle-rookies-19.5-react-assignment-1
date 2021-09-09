@@ -1,21 +1,23 @@
 import "./ControlBar.css";
 import { useState } from "react";
 
-const ControlBar = ({searchList, startStdAdd}) => {
-    const [searchKey, setSearchKey] = useState('');
+const ControlBar = ({ setSearchKey, startStdAdd }) => {
+  const [content, setContent] = useState("");
 
-    const handleSearchList = (e) => {
-        searchList(searchKey)
-        setSearchKey(e.target.value)
-        searchList(searchKey)
-    }
+  const handleSearchList = (e) => {
+    setContent(e.target.value);
+    setSearchKey(e.target.value);
+  };
+
   return (
     <div className="controlBar">
       <input
-          className="search"
-          placeholder="검색"
-          value={searchKey}
-          onChange={(e) => {handleSearchList(e)}}
+        className="search"
+        placeholder="검색"
+        value={content}
+        onChange={(e) => {
+          handleSearchList(e);
+        }}
       />
       <button className="addButton" onClick={startStdAdd}>
         추가
