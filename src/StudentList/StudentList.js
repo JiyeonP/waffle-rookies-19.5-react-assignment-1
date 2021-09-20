@@ -2,13 +2,12 @@ import "./StudentList.css";
 import Student from "./Student";
 
 const StudentList = ({
-  stdList,
+  studentList,
   searchKey,
-  selectedStd,
-  selectStd,
-  unselectStd,
+  selectedStudent,
+  selectChange,
 }) => {
-  const showList = stdList.filter((item) => item.name.includes(searchKey));
+  const showList = studentList.filter((item) => item.name.includes(searchKey));
 
   return (
     <div className="listBox">
@@ -16,14 +15,13 @@ const StudentList = ({
         <p className="headerComp">이름</p>
         <p className="headerComp">학년</p>
       </div>
-      <ul className="stdList">
+      <ul className="studentList">
         {showList.map((item) => (
           <Student
             key={item.id}
             student={item}
-            selected={selectedStd.id === item.id}
-            selectStd={selectStd}
-            unselectStd={unselectStd}
+            selected={selectedStudent.id === item.id}
+            selectChange={selectChange}
           />
         ))}
       </ul>

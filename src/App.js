@@ -59,78 +59,88 @@ const dummyData = [
 ];
 
 function App() {
-  const [stdList, setStdList] = useState(dummyData);
-  const [selectedStd, setSelectedStd] = useState({
+  const [studentList, setStudentList] = useState(dummyData);
+  const [selectedStudent, setSelectedStudent] = useState({
     id: false,
     name: false,
     grade: false,
     profileImg: false,
   });
-  const [addStd, setAddStd] = useState(false);
+  const [addStudent, setAddStudent] = useState(false);
   const [searchKey, setSearchKey] = useState("");
 
-  const startStdAdd = () => {
-    setAddStd(true);
+  const startAddStudent = () => {
+    setAddStudent(true);
   };
 
-  const finStdAdd = () => {
-    setAddStd(false);
+  const finStudentAdd = () => {
+    setAddStudent(false);
   };
 
-  const selectStd = (targetStd) => {
-    setSelectedStd(targetStd);
+  const selectChange = (targetStudent) => {
+    if (selectedStudent !== targetStudent) {
+      setSelectedStudent(targetStudent);
+    } else {
+      setSelectedStudent({
+        id: false,
+        name: false,
+        grade: false,
+        profileImg: false,
+      });
+    }
   };
 
-  const unselectStd = () => {
-    setSelectedStd({ id: false, name: false, grade: false, profileImg: false });
+  const studentAdd = (newStudent) => {
+    setStudentList([...studentList, newStudent]);
   };
 
-  const stdAdd = (newStd) => {
-    setStdList([...stdList, newStd]);
+  const studentChange = (changedStudent) => {
+    const newStudentList = studentList.map((student) => {
+      if (student.id === changedStudent.id) {
+        return changedStudent;
+      } else {
+        return student;
+      }
+    });
+    setStudentList(newStudentList);
   };
 
-  const stdChange = (changedStd) => {
-    const targetIndex = stdList.findIndex((item) => item.id === changedStd.id);
-    const newStdList = stdList.slice();
-    newStdList.splice(targetIndex, 1, changedStd);
-
-    setStdList(newStdList);
-  };
-
-  const stdDelete = (id) => {
-    const newStdList = stdList.filter((item) => item.id !== id);
-    setStdList(newStdList);
+  const studentDelete = (id) => {
+    const newStudentList = studentList.filter((item) => item.id !== id);
+    setStudentList(newStudentList);
   };
 
   return (
     <div className="AppWrapper">
       <div className="App">
         <Header />
-        <DashBoard stdList={stdList} />
-        <ControlBar setSearchKey={setSearchKey} startStdAdd={startStdAdd} />
-        <StudentList
-          stdList={stdList}
+        <DashBoard studentList={studentList} />
+        <ControlBar
+          setSearchKey={setSearchKey}
           searchKey={searchKey}
-          selectedStd={selectedStd}
-          selectStd={selectStd}
-          unselectStd={unselectStd}
+          startAddStudent={startAddStudent}
+        />
+        <StudentList
+          studentList={studentList}
+          searchKey={searchKey}
+          selectedStudent={selectedStudent}
+          selectChange={selectChange}
+          selectChange={selectChange}
         />
         <div className="divideLine" />
-        (selectedStd &&{" "}
         <ViewProfile
-          stdList={stdList}
-          selectedStd={selectedStd}
-          setSelectedStd={setSelectedStd}
-          stdChange={stdChange}
-          stdDelete={stdDelete}
+          studentList={studentList}
+          selectedStudent={selectedStudent}
+          setSelectedStudent={setSelectedStudent}
+          studentChange={studentChange}
+          studentDelete={studentDelete}
         />
-        )
         <AddStudent
-          stdList={stdList}
-          addStd={addStd}
-          finStdAdd={finStdAdd}
-          stdAdd={stdAdd}
-          setSelectedStd={setSelectedStd}
+          studentList={studentList}
+          addStudent={addStudent}
+          finStudentAdd={finStudentAdd}
+          studentAdd={studentAdd}
+          setSelectedStudent={setSelectedStudent}
         />
       </div>
     </div>

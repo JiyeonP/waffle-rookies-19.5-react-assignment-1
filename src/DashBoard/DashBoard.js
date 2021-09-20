@@ -1,6 +1,6 @@
 import "./DashBoard.css";
 
-const DashBoard = (stdList) => {
+const DashBoard = (studentList) => {
   return <div className="dashBoard">Empty Board</div>;
 };
 

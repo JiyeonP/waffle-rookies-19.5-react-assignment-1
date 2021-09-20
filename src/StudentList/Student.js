@@ -1,12 +1,8 @@
 import "./Student.css";
 
-const Student = ({ student, selected, selectStd, unselectStd }) => {
-  const handleSelectStd = () => {
-    selectStd(student);
-  };
-
-  const handleUnselectStd = () => {
-    unselectStd();
+const Student = ({ student, selected, selectChange }) => {
+  const handleSelectStudent = () => {
+    selectChange(student);
   };
 
   return (
@@ -15,20 +11,20 @@ const Student = ({ student, selected, selectStd, unselectStd }) => {
       <p className="listComp">{student.grade}</p>
       <button
         className={`viewProfileButton ${selected ? "selected" : ""}`}
-        onClick={handleSelectStd}
+        onClick={handleSelectStudent}
       >
         <img
-          className="stdListArrow"
+          className="studentListArrow"
           src="https://cdn-icons-png.flaticon.com/512/271/271226.png"
           alt="arrow"
         />
       </button>
       <button
         className={`closeProfileButton ${selected ? "selected" : ""}`}
-        onClick={handleUnselectStd}
+        onClick={handleSelectStudent}
       >
         <img
-          className="stdListArrow2"
+          className="studentListArrow2"
           src="https://cdn-icons-png.flaticon.com/512/271/271226.png"
           alt="back arrow"
         />

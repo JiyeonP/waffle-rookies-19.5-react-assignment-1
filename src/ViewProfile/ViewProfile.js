@@ -2,63 +2,71 @@ import "./ViewProfile.css";
 import { useState, useEffect } from "react";
 
 const ViewProfile = ({
-  stdList,
-  selectedStd,
-  setSelectedStd,
-  stdChange,
-  stdDelete,
+  studentList,
+  selectedStudent,
+  setSelectedStudent,
+  studentChange,
+  studentDelete,
 }) => {
-  const [changedStd, setChangedStd] = useState(selectedStd);
+  const [changedStudent, setChangedStudent] = useState(selectedStudent);
 
   useEffect(() => {
-    setChangedStd(selectedStd);
-  }, [selectedStd]);
+    setChangedStudent(selectedStudent);
+  }, [selectedStudent]);
 
   const handleNameChange = (e) => {
-    const newChangedStd = { ...changedStd, name: e.target.value };
-    setChangedStd(newChangedStd);
+    const newChangedStudent = { ...changedStudent, name: e.target.value };
+    setChangedStudent(newChangedStudent);
   };
 
   const handleGradeChange = (e) => {
-    const newChangedStd = { ...changedStd, grade: Number(e.target.value) };
-    setChangedStd(newChangedStd);
+    const newChangedStudent = {
+      ...changedStudent,
+      grade: Number(e.target.value),
+    };
+    setChangedStudent(newChangedStudent);
   };
 
   const handleProfileImgChange = (e) => {
-    const newChangedStd = { ...changedStd, profileImg: e.target.value };
-    setChangedStd(newChangedStd);
+    const newChangedStudent = { ...changedStudent, profileImg: e.target.value };
+    setChangedStudent(newChangedStudent);
   };
 
   const handleSave = () => {
     if (
-      ![2, 3].includes(changedStd.name.length) ||
-      ![1, 2, 3].includes(Number(changedStd.grade))
+      ![2, 3].includes(changedStudent.name.length) ||
+      ![1, 2, 3].includes(Number(changedStudent.grade))
     ) {
       return window.alert("이름 또는 학년이 올바르지 않습니다.");
     }
 
     if (
-      stdList.filter(
+      studentList.find(
         (item) =>
-          item.id !== selectedStd.id &&
-          item.name === selectedStd.name &&
-          item.grade === selectedStd.grade
-      ) > 0
+          item.id !== changedStudent.id &&
+          item.name === changedStudent.name &&
+          item.grade === changedStudent.grade
+      )
     ) {
       return window.alert("해당 학년에 동명이인이 존재합니다. (수정 불가)");
     }
 
-    stdChange(changedStd);
+    studentChange(changedStudent);
   };
 
-  const handleStdDelete = () => {
-    stdDelete(selectedStd.id);
-    setSelectedStd({ id: false, name: false, grade: false, profileImg: false });
+  const handleStudentDelete = () => {
+    studentDelete(selectedStudent.id);
+    setSelectedStudent({
+      id: false,
+      name: false,
+      grade: false,
+      profileImg: false,
+    });
   };
 
   return (
     <div className="profileWrapper">
-      {!selectedStd.id ? (
+      {!selectedStudent.id ? (
         <div className="empty">왼쪽 표에서 학생을 선택해 주세요.</div>
       ) : (
         <div className="profilePage">
@@ -66,14 +74,14 @@ const ViewProfile = ({
             <button className="saveButton" onClick={handleSave}>
               저장
             </button>
-            <button className="deleteButton" onClick={handleStdDelete}>
+            <button className="deleteButton" onClick={handleStudentDelete}>
               삭제
             </button>
           </div>
-          {selectedStd.profileImg ? (
+          {selectedStudent.profileImg ? (
             <img
               className="profileImg"
-              src={selectedStd.profileImg}
+              src={selectedStudent.profileImg}
               alt="profile img"
             />
           ) : (
@@ -89,7 +97,7 @@ const ViewProfile = ({
               <input
                 className="editInput"
                 placeholder="이름을 입력하세요."
-                value={changedStd.name}
+                value={changedStudent.name}
                 onChange={(e) => handleNameChange(e)}
               />
             </div>
@@ -100,7 +108,7 @@ const ViewProfile = ({
                 type="number"
                 min="1"
                 max="3"
-                value={changedStd.grade}
+                value={changedStudent.grade}
                 onChange={(e) => handleGradeChange(e)}
               />
             </div>
@@ -109,7 +117,7 @@ const ViewProfile = ({
               <input
                 className="editInput"
                 placeholder="프로필 사진 주소를 입력하세요."
-                value={changedStd.profileImg}
+                value={changedStudent.profileImg}
                 onChange={(e) => handleProfileImgChange(e)}
               />
             </div>
