@@ -63,12 +63,12 @@
   background: #a4a4a4;
 }
 
-.stdListArrow {
+.studentListArrow {
   width: 10px;
   height: 8px;
 }
 
-.stdListArrow2 {
+.studentListArrow2 {
   width: 10px;
   height: 8px;
   transform: rotate(180deg);
