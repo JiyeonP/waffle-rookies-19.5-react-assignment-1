@@ -1,34 +1,33 @@
 import "./AddStudent.css";
 import { useState } from "react";
+import {useStudentContext} from "../../Context/StudentContext";
 
 const AddStudent = ({
-  studentList,
   addStudent,
-  finStudentAdd,
-  studentAdd,
-  setSelectedStudent,
+  handleAddStudent,
 }) => {
-  const [studentName, setStudentName] = useState("");
-  const [studentGrade, setStudentGrade] = useState(NaN);
-  const [studentProfileImg, setStudentProfileImg] = useState("");
+  const {studentList, setStudentList, selectedStudent, setSelectedStudent} = useStudentContext();
+  const [name, setName] = useState("");
+  const [grade, setGrade] = useState(NaN);
+  const [profileImg, setProfileImg] = useState("");
 
   const handleStudentAdd = () => {
-    if (!studentName || !studentGrade) {
+    if (!name || !grade) {
       return window.alert("이름과 학년을 모두 입력하세요.");
     }
 
-    if (![2, 3].includes(studentName.length)) {
+    if (![2, 3].includes(name.length)) {
       return window.alert("이름을 다시 확인해주세요. (두 글자/세 글자 입력)");
     }
 
-    if (![1, 2, 3].includes(Number(studentGrade))) {
+    if (![1, 2, 3].includes(Number(grade))) {
       return window.alert("학년을 다시 확인해주세요. (1, 2, 3 중 입력)");
     }
 
     if (
       studentList.find(
         (item) =>
-          item.name === studentName && item.grade === Number(studentGrade)
+          item.name === name && item.grade === Number(grade)
       )
     ) {
       return window.alert("해당 학년에 동명이인이 존재합니다. (추가 불가)");
@@ -36,34 +35,38 @@ const AddStudent = ({
 
     const newStudent = {
       id: Math.random(),
-      name: studentName,
-      grade: Number(studentGrade),
-      profileImg: studentProfileImg,
+      name: name,
+      grade: Number(grade),
+      phone: '',
+      email: '@waffle.hs.kr',
+      major: 'frontend',
+      profileImg: '',
+      locked: false,
     };
 
-    studentAdd(newStudent);
+    setStudentList([...studentList, newStudent]);
     setSelectedStudent(newStudent);
     handleClose();
   };
 
   const handleClose = () => {
-    finStudentAdd();
-    setStudentName("");
-    setStudentGrade(NaN);
-    setStudentProfileImg("");
+    handleAddStudent();
+    setName("");
+    setGrade(NaN);
+    setProfileImg("");
   };
 
   return (
     <div className={`wrapper ${addStudent ? "show" : ""}`}>
-      <div className="backBox" />
+      <div className="backBox" onClick={handleClose} />
       <div className="studentAddPage">
         <div className="addLine">
           <p className="addIndex">이름</p>
           <input
             className="addInput"
             placeholder="이름을 입력하세요. (한글)"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="addLine">
@@ -74,17 +77,8 @@ const AddStudent = ({
             type="number"
             min="1"
             max="3"
-            value={studentGrade}
-            onChange={(e) => setStudentGrade(e.target.value)}
-          />
-        </div>
-        <div className="addLine">
-          <p className="addIndex">프로필</p>
-          <input
-            className="addInput"
-            placeholder="프로필 사진 주소를 입력하세요."
-            value={studentProfileImg}
-            onChange={(e) => setStudentProfileImg(e.target.value)}
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
           />
         </div>
         <button className="close" onClick={handleClose}>

@@ -2,7 +2,7 @@ import "./Header.css";
 
 const Header = () => {
   return (
-    <div className="Header">
+    <div className="header">
       <a href="https://wafflestudio.com/" target="_blank">
         <img
           className="waffleLogo"

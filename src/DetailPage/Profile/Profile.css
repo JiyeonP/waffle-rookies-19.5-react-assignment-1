@@ -1,0 +1,57 @@
+.profile2Img {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    left: 50px;
+    top: 80px;
+
+    border: 1px solid #5d5d5d;
+    border-radius: 50%;
+}
+
+.profile2 {
+    position: relative;
+    width: 50px;
+    height: 120px;
+    left: 220px;
+    top: -55px;
+    display: table;
+    padding: 10px;
+
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.profile2Line {
+    position: relative;
+    margin: 5px;
+    width: 100%;
+    height: 20px;
+    top: 20px;
+
+    display: flex;
+}
+
+.profile2Index {
+    position: relative;
+    width: 60px;
+    left: 10px;
+    line-height: 0px;
+
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.profile2Value {
+    position: relative;
+    width: 75px;
+    height: 20px;
+    left: 0px;
+    padding: 3px;
+
+    color: #7d7d7d;
+    background-color: white;
+    border-width: 0px;
+    font-size: 10px;
+    box-sizing: border-box;
+}

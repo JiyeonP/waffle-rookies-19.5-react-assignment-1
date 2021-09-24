@@ -51,3 +51,7 @@
 - 학생 수가 많아 리스트 칸 넘어가면 스크롤 기능 추가
 - 새로 추가한 학생을 항상 선택
   ![conditionJPG](https://user-images.githubusercontent.com/66158942/132728228-8b487493-19ea-4a7f-b8f3-02ff80b72ac2.JPG)
+
+---
+### Problems
+- Cannot remove the white border of the PieChart(DashBoard) label
