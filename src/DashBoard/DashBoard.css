@@ -1,0 +1,11 @@
+.dashBoard {
+  position: relative;
+  width: 720px;
+  height: 140px;
+  left: 20px;
+  top: 30px;
+  background: #ececec;
+
+  text-align: center;
+  line-height: 140px;
+}
