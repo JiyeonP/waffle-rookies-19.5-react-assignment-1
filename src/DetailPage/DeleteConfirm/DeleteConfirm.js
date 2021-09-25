@@ -32,9 +32,10 @@ const DeleteConfirm = ({ deleteClicked, handleDelete }) => {
       <div className="ConfirmPage">
         <div className="warningLine">
           <img
-          className="warningImage"
-          src="https://cdn-icons-png.flaticon.com/512/1672/1672451.png"
-          alt="주의 사진"/>
+            className="warningImage"
+            src="https://cdn-icons-png.flaticon.com/512/1672/1672451.png"
+            alt="주의 사진"
+          />
           <p className="warningMessage">학생을 삭제합니다.</p>
         </div>
         <p className="irreversibleMessage">이 작업은 되돌릴 수 없습니다.</p>

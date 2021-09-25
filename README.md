@@ -53,5 +53,7 @@
   ![conditionJPG](https://user-images.githubusercontent.com/66158942/132728228-8b487493-19ea-4a7f-b8f3-02ff80b72ac2.JPG)
 
 ---
+
 ### Problems
+
 - Cannot remove the white border of the PieChart(DashBoard) label

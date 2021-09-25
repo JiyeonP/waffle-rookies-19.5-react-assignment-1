@@ -1,6 +1,6 @@
 import "./DetailPage.css";
 import { useEffect, useState } from "react";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
 import { useStudentContext } from "../Context/StudentContext";
@@ -13,14 +13,18 @@ const DetailPage = () => {
   const params = useParams();
   const [changedStudent, setChangedStudent] = useState({});
   const [deleteClicked, setDeleteClicked] = useState(false);
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } = useStudentContext();
+  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+    useStudentContext();
 
   const history = useHistory();
 
   useEffect(() => {
     setChangedStudent({
       ...selectedStudent,
-      email: selectedStudent.email === "@waffle.hs.kr"? "": selectedStudent.email.substring(0, -13),
+      email:
+        selectedStudent.email === "@waffle.hs.kr"
+          ? ""
+          : selectedStudent.email.substring(0, -13),
     });
   }, [selectedStudent]);
 
@@ -53,15 +57,16 @@ const DetailPage = () => {
       if (student.id === changedStudent.id) {
         return {
           ...changedStudent,
-          email: changedStudent.email + "@waffle.hs.kr",
+          email: changedStudent.email.concat("@waffle.hs.kr"),
         };
       } else {
         return student;
       }
     });
+    setSelectedStudent(changedStudent);
     setStudentList(newStudentList);
     history.push("/students");
-  }
+  };
 
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
@@ -80,7 +85,7 @@ const DetailPage = () => {
           handleSave={handleSave}
           handleDelete={handleDelete}
           handleLock={handleLock}
-          />
+        />
         <Profile />
         <Information
           changedStudent={changedStudent}
@@ -94,7 +99,7 @@ const DetailPage = () => {
           deleteClicked={deleteClicked}
           handleDelete={handleDelete}
         />
-        {changedStudent.locked ? <LockBox/> : null}
+        {changedStudent.locked ? <LockBox /> : null}
       </div>
     </div>
   );

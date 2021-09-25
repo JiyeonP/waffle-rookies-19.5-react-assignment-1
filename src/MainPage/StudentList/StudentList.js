@@ -2,7 +2,7 @@ import "./StudentList.css";
 import Student from "./Student";
 import { useStudentContext } from "../../Context/StudentContext";
 
-const StudentList = ({searchKey}) => {
+const StudentList = ({ searchKey }) => {
   const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
     useStudentContext();
   const showList = studentList.filter((item) => item.name.includes(searchKey));
@@ -27,18 +27,19 @@ const StudentList = ({searchKey}) => {
         <p className="headerComp">학년</p>
       </div>
       {!studentList.length ? (
-          <div className="emptyList">학교에 학생이 없어요 :(</div>
+        <div className="emptyList">학교에 학생이 없어요 :(</div>
       ) : (
-      <ul className="studentList">
-        {showList.map((item) => (
-          <Student
-            key={item.id}
-            student={item}
-            selected={selectedStudent.id === item.id}
-            selectChange={selectChange}
-          />
-        ))}
-      </ul>)}
+        <ul className="studentList">
+          {showList.map((item) => (
+            <Student
+              key={item.id}
+              student={item}
+              selected={selectedStudent.id === item.id}
+              selectChange={selectChange}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

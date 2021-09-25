@@ -1,10 +1,8 @@
 import "./Buttons.css";
 import { useStudentContext } from "../../Context/StudentContext";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } = useStudentContext();
-
   const history = useHistory();
 
   const goStudentList = () => history.push("/students");
@@ -13,11 +11,14 @@ const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
     <div className="header">
       <button className="backToListButton" onClick={goStudentList}>
         <img
-          className="buttonImg"
+          className="goBackImg"
           src="https://cdn-icons-png.flaticon.com/512/507/507257.png"
           alt="왼쪽 화살표"
         />
-        <p className="buttonText"> 학생 목록 페이지로 </p>
+        <Link className="goBackText" to="/students">
+          {" "}
+          학생 목록 페이지로{" "}
+        </Link>
       </button>
       {changedStudent.locked ? (
         <button className={`defaultButton ${"lock"}`} onClick={handleLock}>

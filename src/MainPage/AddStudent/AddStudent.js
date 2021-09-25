@@ -1,12 +1,10 @@
 import "./AddStudent.css";
 import { useState } from "react";
-import {useStudentContext} from "../../Context/StudentContext";
+import { useStudentContext } from "../../Context/StudentContext";
 
-const AddStudent = ({
-  addStudent,
-  handleAddStudent,
-}) => {
-  const {studentList, setStudentList, selectedStudent, setSelectedStudent} = useStudentContext();
+const AddStudent = ({ addStudent, handleAddStudent }) => {
+  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+    useStudentContext();
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(NaN);
   const [profileImg, setProfileImg] = useState("");
@@ -26,8 +24,7 @@ const AddStudent = ({
 
     if (
       studentList.find(
-        (item) =>
-          item.name === name && item.grade === Number(grade)
+        (item) => item.name === name && item.grade === Number(grade)
       )
     ) {
       return window.alert("해당 학년에 동명이인이 존재합니다. (추가 불가)");
@@ -37,10 +34,10 @@ const AddStudent = ({
       id: Math.random(),
       name: name,
       grade: Number(grade),
-      phone: '',
-      email: '@waffle.hs.kr',
-      major: 'frontend',
-      profileImg: '',
+      phone: "",
+      email: "@waffle.hs.kr",
+      major: "frontend",
+      profileImg: "",
       locked: false,
     };
 

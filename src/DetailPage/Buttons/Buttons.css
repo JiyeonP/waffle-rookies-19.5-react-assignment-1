@@ -1,58 +1,72 @@
-.header{
-    height: 30px;
+.header {
+  height: 30px;
 }
 
 .backToListButton {
-    display: inline-flex;
-    width: 160px;
-    height: 30px;
+  display: inline-flex;
+  width: 160px;
+  height: 30px;
 
-    background: white;
-    border-width: 0px;
+  background: white;
+  border-width: 0px;
 }
 
 .defaultButton {
-    position: relative;
-    width: 70px;
-    height: 30px;
-    left: 330px;
-    margin-right: 10px;
-    display: inline-flex;
+  position: relative;
+  width: 70px;
+  height: 30px;
+  left: 330px;
+  margin-right: 10px;
+  display: inline-flex;
 
-    background-color: #d0d0d0;
-    border-width: 0px;
-    border-radius: 5px;
+  background-color: #d0d0d0;
+  border-width: 0px;
+  border-radius: 5px;
 }
 
-.defaultButton.lock:hover{
-    background-color: #adadad;
+.defaultButton.lock:hover {
+  background-color: #adadad;
 }
 
 .defaultButton.save {
-    background-color: #bbf5bb;
+  background-color: #bbf5bb;
 }
 
 .defaultButton.save:hover {
-    background-color: #88dd88;
+  background-color: #88dd88;
 }
 
 .defaultButton.delete {
-    background-color: #ffbbca;
+  background-color: #ffbbca;
 }
 
 .defaultButton.delete:hover {
-    background-color: #dd8897;
+  background-color: #dd8897;
 }
 
-.buttonImg{
-    position: relative;
-    width: 20px;
-    height: 20px;
-    top: 4px;
+.goBackImg {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.goBackText {
+  position: relative;
+  left: 7px;
+
+  text-decoration: none;
+  color: black;
+}
+
+.buttonImg {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  top: 4px;
 }
 
 .buttonText {
-    position: relative;
-    left: 7px;
-    top: -9px;
+  position: relative;
+  left: 7px;
+  top: -9px;
 }

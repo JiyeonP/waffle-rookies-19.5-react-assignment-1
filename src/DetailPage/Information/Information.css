@@ -1,105 +1,105 @@
-.infoHeader{
-    position: relative;
-    width: 50px;
-    height: 20px;
-    left: 30px;
+.infoHeader {
+  position: relative;
+  width: 50px;
+  height: 20px;
+  left: 30px;
 
-    font-size: 13px;
-    line-height: 20px;
-    text-align: center;
-    background-color: #d0d0d0;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #d0d0d0;
 }
 
 .infoBox {
-    position: relative;
-    width: 350px;
-    height: 370px;
-    left: 20px;
+  position: relative;
+  width: 350px;
+  height: 370px;
+  left: 20px;
 
-    border: 1px solid black;
-    box-sizing: border-box;
-    display: table;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: table;
 }
 
 .info {
-    position: relative;
-    width: 100px;
-    height: 120px;
-    left: 15px;
-    display: table;
-    padding: 10px;
+  position: relative;
+  width: 100px;
+  height: 120px;
+  left: 15px;
+  display: table;
+  padding: 10px;
 
-    background-color: white;
-    box-sizing: border-box;
+  background-color: white;
+  box-sizing: border-box;
 }
 
 .infoLine {
-    position: relative;
-    margin: 15px;
-    width: 100%;
-    height: 20px;
-    top: 20px;
+  position: relative;
+  margin: 15px;
+  width: 100%;
+  height: 20px;
+  top: 20px;
 
-    display: flex;
+  display: flex;
 }
 
-.infoIndex{
-    position: relative;
-    width: 60px;
-    left: 10px;
-    line-height: 0px;
+.infoIndex {
+  position: relative;
+  width: 60px;
+  left: 10px;
+  line-height: 0px;
 
-    font-weight: bold;
-    font-size: 10px;
+  font-weight: bold;
+  font-size: 10px;
 }
 
 .infoInput {
-    position: relative;
-    width: 200px;
-    height: 20px;
-    left: 0px;
+  position: relative;
+  width: 200px;
+  height: 20px;
+  left: 0px;
 
-    font-size: 10px;
-    background: #f4f4f4;
-    border: 1px solid #c2c2c2;
-    box-sizing: border-box;
+  font-size: 10px;
+  background: #f4f4f4;
+  border: 1px solid #c2c2c2;
+  box-sizing: border-box;
 }
 
 .emailInput {
-    position: relative;
-    width: 135px;
-    height: 18px;
-    left: 0px;
+  position: relative;
+  width: 135px;
+  height: 18px;
+  left: 0px;
 
-    font-size: 10px;
-    background: #f4f4f4;
-    border-width: 0px;
-    box-sizing: border-box;
+  font-size: 10px;
+  background: #f4f4f4;
+  border-width: 0px;
+  box-sizing: border-box;
 }
 
 .emailInput.focus {
-    position: relative;
-    width: 135px;
-    height: 18px;
-    left: 0px;
+  position: relative;
+  width: 135px;
+  height: 18px;
+  left: 0px;
 
-    font-size: 10px;
-    background: #f4f4f4;
-    border-width: 0px;
-    box-sizing: border-box;
+  font-size: 10px;
+  background: #f4f4f4;
+  border-width: 0px;
+  box-sizing: border-box;
 }
 
 .waffleEmail {
-    position: relative;
-    width: 60px;
-    height: 18px;
-    left: 135px;
-    text-align: right;
-    top: -18px;
-    line-height: 18px;
+  position: relative;
+  width: 60px;
+  height: 18px;
+  left: 135px;
+  text-align: right;
+  top: -18px;
+  line-height: 18px;
 
-    color: #7d7d7d;
-    font-size: 10px;
-    background: #f4f4f4;
-    box-sizing: border-box;
+  color: #7d7d7d;
+  font-size: 10px;
+  background: #f4f4f4;
+  box-sizing: border-box;
 }

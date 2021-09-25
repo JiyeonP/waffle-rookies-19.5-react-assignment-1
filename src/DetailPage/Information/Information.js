@@ -3,7 +3,13 @@ import { useState, useEffect } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
 import NumberFormat from "react-number-format";
 
-const Information = ({ changedStudent, handlePhoneChange, handleEmailChange, handleMajorChange, handleProfileImgChange }) => {
+const Information = ({
+  changedStudent,
+  handlePhoneChange,
+  handleEmailChange,
+  handleMajorChange,
+  handleProfileImgChange,
+}) => {
   return (
     <div>
       <div className="infoHeader">정보</div>
@@ -32,8 +38,12 @@ const Information = ({ changedStudent, handlePhoneChange, handleEmailChange, han
           </div>
           <div className="infoLine">
             <p className="infoIndex">전공</p>
-            <select className="infoInput" value={changedStudent.major} onChange={(e) => handleMajorChange(e)}>
-              <option value="frontend" >frontend</option>
+            <select
+              className="infoInput"
+              value={changedStudent.major}
+              onChange={(e) => handleMajorChange(e)}
+            >
+              <option value="frontend">frontend</option>
               <option value="backend">backend</option>
               <option value="android">android</option>
               <option value="iOS">iOS</option>

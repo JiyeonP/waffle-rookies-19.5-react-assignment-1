@@ -1,25 +1,24 @@
 .lockBox {
-    position: relative;
-    width: 350px;
-    height: 370px;
-    left: 20px;
-    top: -860px;
+  position: relative;
+  width: 350px;
+  height: 370px;
+  left: 20px;
+  top: -860px;
 
-    opacity: 30%;
-    background-color: black;
+  opacity: 30%;
+  background-color: black;
 }
 
 .lockImg {
-    position: relative;
-    left: 150px;
-    top: -1100px;
-    width: 100px;
-    height: 100px;
+  position: relative;
+  left: 150px;
+  top: -1100px;
+  width: 100px;
+  height: 100px;
 }
 
 .lockMessage {
-    position: relative;
-    left: 100px;
-    top: -1100px;
-
+  position: relative;
+  left: 100px;
+  top: -1100px;
 }

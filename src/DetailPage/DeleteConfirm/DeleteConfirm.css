@@ -1,97 +1,97 @@
 .wrapper {
-    visibility: hidden;
-    opacity: 0%;
-    transition: all 0.5s;
+  visibility: hidden;
+  opacity: 0%;
+  transition: all 0.5s;
 }
 
 .wrapper.show {
-    visibility: visible;
-    opacity: 100%;
+  visibility: visible;
+  opacity: 100%;
 }
 
 .backBox {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    opacity: 36%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 36%;
 
-    background-color: black;
+  background-color: black;
 }
 
 .ConfirmPage {
-    position: absolute;
-    width: 360px;
-    height: 240px;
-    left: calc(50% - 180px);
-    top: calc(50% - 120px);
-    padding: 10px;
+  position: absolute;
+  width: 360px;
+  height: 240px;
+  left: calc(50% - 180px);
+  top: calc(50% - 120px);
+  padding: 10px;
 
-    background-color: white;
-    border: 1px solid #000000;
-    box-sizing: border-box;
+  background-color: white;
+  border: 1px solid #000000;
+  box-sizing: border-box;
 }
 
-.warningLine{
-    display: flex;
+.warningLine {
+  display: flex;
 }
 
 .warningImage {
-    width: 50px;
-    height: 50px;
-    margin: 10px;
+  width: 50px;
+  height: 50px;
+  margin: 10px;
 }
 
 .warningMessage {
-    position: relative;
-    top: 10px;
-    margin: 10px;
-    font-size: 18px;
+  position: relative;
+  top: 10px;
+  margin: 10px;
+  font-size: 18px;
 }
 
 .irreversibleMessage {
-    position: relative;
-    width: 180px;
-    left: calc(50% - 90px);
-    top: 20px;
+  position: relative;
+  width: 180px;
+  left: calc(50% - 90px);
+  top: 20px;
 
-    text-align: center;
-    font-size: 13px;
+  text-align: center;
+  font-size: 13px;
 }
 
 .cancelButton {
-    position: relative;
-    width: 70px;
-    height: 30px;
-    left: 180px;
-    top: 70px;
-    margin-right: 10px;
-    display: inline-flex;
+  position: relative;
+  width: 70px;
+  height: 30px;
+  left: 180px;
+  top: 70px;
+  margin-right: 10px;
+  display: inline-flex;
 
-    background-color: #cabbff;
-    border-width: 0px;
-    border-radius: 5px;
+  background-color: #cabbff;
+  border-width: 0px;
+  border-radius: 5px;
 }
 
 .cancelButton:hover {
-    background-color: #9788dd;
+  background-color: #9788dd;
 }
 
 .deleteButton {
-    position: relative;
-    width: 70px;
-    height: 30px;
-    left: 180px;
-    top: 70px;
-    margin-right: 10px;
-    display: inline-flex;
+  position: relative;
+  width: 70px;
+  height: 30px;
+  left: 180px;
+  top: 70px;
+  margin-right: 10px;
+  display: inline-flex;
 
-    background-color: #ffbbca;
-    border-width: 0px;
-    border-radius: 5px;
+  background-color: #ffbbca;
+  border-width: 0px;
+  border-radius: 5px;
 }
 
 .deleteButton:hover {
-    background-color: #dd8897;
+  background-color: #dd8897;
 }
