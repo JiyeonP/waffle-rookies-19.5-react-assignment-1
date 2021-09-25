@@ -12,7 +12,7 @@
 
 ---
 #### 배포
-Url: http://waffle-frontend-assignment-2.s3-website.ap-northeast-2.amazonaws.com
+Url: https://d1j08au4wxpqdz.cloudfront.net
 
 ---
 
@@ -20,3 +20,4 @@ Url: http://waffle-frontend-assignment-2.s3-website.ap-northeast-2.amazonaws.com
 
 - 대시보드에 사용한 PieChart label 글씨의 흰색 테두리를 제거하는 방법을 모르겠습니다.
 - 처음 로그인 할때는 login(state)가 true로 설정되나, 이후 다른 url을 입력하면 login(state)가 false로 초기화 되는 것으로 보입니다.
+- 도메인 배포 시 This XML file does not appear to have any style information associated with it. The document tree is shown below. 라는 에러가 뜹니다.
