@@ -29,6 +29,8 @@ const DashBoard = () => {
     <div className="dashBoard">
       <PieChart width={720} height={140}>
         <Pie
+          stroke="#ececec"
+          strokeWidth="2"
           data={gradeData}
           cx="50%"
           cy="50%"
@@ -38,11 +40,14 @@ const DashBoard = () => {
           fill="#ff8c5a"
         >
           <LabelList
+            stroke="#dd5555"
+            strokeWidth="0.5"
             dataKey="grade"
             position="outside"
-            style={{ fontSize: "120%", fill: "#ff8c5a", fontWeight: "bold" }}
+            style={{ fontSize: "90%", fill: "#ff8888", fontWeight: "bold" }}
           />
           <LabelList
+            stroke="none"
             dataKey="count"
             position="inside"
             style={{ fontSize: "120%", fill: "#ffffff", fontWeight: "bold" }}

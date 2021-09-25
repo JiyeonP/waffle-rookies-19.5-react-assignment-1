@@ -19,12 +19,10 @@ const DetailPage = () => {
   const history = useHistory();
 
   useEffect(() => {
+    console.log("selected: ", selectedStudent);
     setChangedStudent({
       ...selectedStudent,
-      email:
-        selectedStudent.email === "@waffle.hs.kr"
-          ? ""
-          : selectedStudent.email.substring(0, -13),
+      email: selectedStudent.email.split("@")[0],
     });
   }, [selectedStudent]);
 
@@ -53,17 +51,17 @@ const DetailPage = () => {
   };
 
   const handleSave = () => {
+    setSelectedStudent({
+      ...changedStudent,
+      email: changedStudent.email.concat("@waffle.hs.kr"),
+    });
     const newStudentList = studentList.map((student) => {
-      if (student.id === changedStudent.id) {
-        return {
-          ...changedStudent,
-          email: changedStudent.email.concat("@waffle.hs.kr"),
-        };
+      if (student.id === selectedStudent.id) {
+        return selectedStudent;
       } else {
         return student;
       }
     });
-    setSelectedStudent(changedStudent);
     setStudentList(newStudentList);
     history.push("/students");
   };

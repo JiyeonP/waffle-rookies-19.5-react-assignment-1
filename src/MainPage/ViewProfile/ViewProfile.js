@@ -25,19 +25,21 @@ const ViewProfile = () => {
               alt="상세 페이지로"
             />
           </div>
-          {selectedStudent.profileImg ? (
-            <img
-              className="profile1Img"
-              src={selectedStudent.profileImg}
-              alt="profile img"
-            />
-          ) : (
-            <img
-              className="profile1Img"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png"
-              alt="no profile img"
-            />
-          )}
+          <div className="profile1ImgWrapper">
+            {selectedStudent.profileImg ? (
+              <img
+                className="profile1Img"
+                src={selectedStudent.profileImg}
+                alt="profile img"
+              />
+            ) : (
+              <img
+                className="profile1Img"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png"
+                alt="no profile img"
+              />
+            )}
+          </div>
           <div className="profile1">
             <div className="profile1Line">
               <p className="profile1Index">이름</p>
@@ -46,10 +48,6 @@ const ViewProfile = () => {
             <div className="profile1Line">
               <p className="profile1Index">학년</p>
               <div className="profile1Value"> {selectedStudent.grade}</div>
-            </div>
-            <div className="profile1Line">
-              <p className="profile1Index">전공</p>
-              <div className="profile1Value"> {selectedStudent.major}</div>
             </div>
           </div>
         </div>

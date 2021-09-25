@@ -46,12 +46,17 @@
   transform: scale(1.1);
 }
 
-.profile1Img {
+.profile1ImgWrapper {
   position: relative;
   width: 200px;
   height: 200px;
   top: calc(50% - 185px);
   left: calc(50% - 100px);
+}
+
+.profile1Img {
+  width: 200px;
+  height: 200px;
 
   border: 1px solid #5d5d5d;
   border-radius: 50%;

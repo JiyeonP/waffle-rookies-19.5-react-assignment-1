@@ -1,9 +1,14 @@
-.profile2Img {
+.profile2ImgWrapper {
   position: relative;
   width: 150px;
   height: 150px;
   left: 50px;
   top: 80px;
+}
+
+.profile2Img {
+  width: 150px;
+  height: 150px;
 
   border: 1px solid #5d5d5d;
   border-radius: 50%;

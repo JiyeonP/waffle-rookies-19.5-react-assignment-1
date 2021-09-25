@@ -11,7 +11,7 @@
 
 .lockImg {
   position: relative;
-  left: 150px;
+  left: 145px;
   top: -1100px;
   width: 100px;
   height: 100px;
@@ -19,6 +19,6 @@
 
 .lockMessage {
   position: relative;
-  left: 100px;
+  left: 90px;
   top: -1100px;
 }

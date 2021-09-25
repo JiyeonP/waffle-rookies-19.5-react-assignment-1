@@ -39,7 +39,7 @@ const Information = ({
           <div className="infoLine">
             <p className="infoIndex">전공</p>
             <select
-              className="infoInput"
+              className="infoSelect"
               value={changedStudent.major}
               onChange={(e) => handleMajorChange(e)}
             >
