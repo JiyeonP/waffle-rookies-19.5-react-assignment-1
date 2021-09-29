@@ -3,7 +3,7 @@ import Student from "./Student";
 import { useStudentContext } from "../../Context/StudentContext";
 
 const StudentList = ({ searchKey }) => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+  const { studentList, selectedStudent, setSelectedStudent } =
     useStudentContext();
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 

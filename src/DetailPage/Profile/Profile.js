@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
 
 const Profile = () => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+  const { selectedStudent } =
     useStudentContext();
 
   return (

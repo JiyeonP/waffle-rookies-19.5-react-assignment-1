@@ -12,7 +12,7 @@ const Information = ({
 }) => {
   return (
     <div>
-      <div className="infoHeader">정보</div>
+      <p className="infoHeader">정보</p>
       <div className="infoBox">
         <div className="info">
           <div className="infoLine">

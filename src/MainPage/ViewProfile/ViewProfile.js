@@ -4,12 +4,11 @@ import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
 
 const ViewProfile = () => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
-    useStudentContext();
+  const { selectedStudent } = useStudentContext();
 
   const history = useHistory();
 
-  const goDetail = () => history.push(`/student/:${selectedStudent.id}`);
+  const goDetail = () => history.push(`/student/${selectedStudent.id}`);
 
   return (
     <div className="profile1Wrapper">

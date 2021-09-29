@@ -3,7 +3,7 @@ import { useStudentContext } from "../../Context/StudentContext";
 import { PieChart, Pie, LabelList } from "recharts";
 
 const DashBoard = () => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+  const { studentList } =
     useStudentContext();
 
   const gradeData = [

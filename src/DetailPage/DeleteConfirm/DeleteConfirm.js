@@ -2,33 +2,13 @@ import "./DeleteConfirm.css";
 import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
 
-const DeleteConfirm = ({ deleteClicked, handleDelete }) => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
-    useStudentContext();
+const DeleteConfirm = ({ deleteClicked, onConfirm, onCancel }) => {
 
   const history = useHistory();
 
-  const handleConfirm = () => {
-    const newStudentList = studentList.filter(
-      (item) => item.id !== selectedStudent.id
-    );
-    setStudentList(newStudentList);
-    setSelectedStudent({
-      id: false,
-      name: false,
-      grade: false,
-      profileImg: false,
-    });
-    history.push("/students");
-  };
-
-  const handleClose = () => {
-    handleDelete();
-  };
-
   return (
     <div className={`wrapper ${deleteClicked ? "show" : ""}`}>
-      <div className="backBox" onClick={handleConfirm} />
+      <div className="backBox" onClick={onCancel} />
       <div className="ConfirmPage">
         <div className="warningLine">
           <img
@@ -40,7 +20,7 @@ const DeleteConfirm = ({ deleteClicked, handleDelete }) => {
         </div>
         <p className="irreversibleMessage">이 작업은 되돌릴 수 없습니다.</p>
         <div>
-          <button className="cancelButton" onClick={handleClose}>
+          <button className="cancelButton" onClick={onCancel}>
             <img
               className="buttonImg"
               src="https://cdn-icons-png.flaticon.com/512/660/660252.png"
@@ -48,7 +28,7 @@ const DeleteConfirm = ({ deleteClicked, handleDelete }) => {
             />
             <p className="buttonText">취소</p>
           </button>
-          <button className="deleteButton" onClick={handleConfirm}>
+          <button className="deleteButton" onClick={onConfirm}>
             <img
               className="buttonImg"
               src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png"

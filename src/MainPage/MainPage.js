@@ -11,8 +11,8 @@ const MainPage = () => {
   const [addStudent, setAddStudent] = useState(false);
   const [searchKey, setSearchKey] = useState("");
 
-  const handleAddStudent = () => {
-    setAddStudent(!addStudent);
+  const handleAddStudent = (v) => {
+    setAddStudent(v);
   };
 
   return (

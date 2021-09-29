@@ -16,12 +16,19 @@ export const ContextProvider = ({ children }) => {
       locked: true,
     },
   ]);
+
   const [selectedStudent, setSelectedStudent] = useState({
     id: false,
     name: false,
     grade: false,
     profileImg: false,
   });
+
+  const [login, setLogin] = useState(false);
+
+  const handleLogin = (v) => {
+    setLogin(v);
+  };
 
   return (
     <StudentContext.Provider
@@ -30,6 +37,8 @@ export const ContextProvider = ({ children }) => {
         setStudentList,
         selectedStudent,
         setSelectedStudent,
+        login,
+        handleLogin,
       }}
     >
       {children}

@@ -4,36 +4,28 @@ import MainPage from "./MainPage/MainPage";
 import DetailPage from "./DetailPage/DetailPage";
 import { useStudentContext } from "./Context/StudentContext";
 import LoginPage from "./LoginPage/LoginPage";
-import { useState } from "react";
 
 function App() {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
-    useStudentContext;
-
-  const [login, setLogin] = useState(false);
-
-  const handleLogin = () => {
-    setLogin(true);
-  };
+  const { login } = useStudentContext();
 
   return (
     <BrowserRouter>
       <Switch>
         {login ? (
-          <div>
+            <>
             <Route path="/students" component={MainPage} exact={true} />
             <Route path="/student/:id" component={DetailPage} exact={true} />
             <Redirect to={"/students"} />
-          </div>
+            </>
         ) : (
-          <div>
+          <>
             <Route
               path="/login"
-              render={() => <LoginPage handleLogin={handleLogin} />}
+              render={() => <LoginPage />}
               exact={true}
             />
             <Redirect to={"/login"} />
-          </div>
+          </>
         )}
       </Switch>
     </BrowserRouter>

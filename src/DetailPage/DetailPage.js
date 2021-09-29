@@ -1,6 +1,6 @@
 import "./DetailPage.css";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
 import { useStudentContext } from "../Context/StudentContext";
@@ -10,7 +10,6 @@ import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
 
 const DetailPage = () => {
-  const params = useParams();
   const [changedStudent, setChangedStudent] = useState({});
   const [deleteClicked, setDeleteClicked] = useState(false);
   const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
@@ -19,7 +18,6 @@ const DetailPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log("selected: ", selectedStudent);
     setChangedStudent({
       ...selectedStudent,
       email: selectedStudent.email.split("@")[0],
@@ -27,6 +25,10 @@ const DetailPage = () => {
   }, [selectedStudent]);
 
   const handleEmailChange = (e) => {
+    if (e.target.value && e.target.value.slice(-1) === '@'){
+      window.alert("@는 사용할 수 없습니다.")
+      return;
+    }
     const newChangedStudent = { ...changedStudent, email: e.target.value };
     setChangedStudent(newChangedStudent);
   };
@@ -66,12 +68,37 @@ const DetailPage = () => {
     history.push("/students");
   };
 
-  const handleDelete = () => {
-    setDeleteClicked(!deleteClicked);
+  const handleConfirm = (v) => {
+    setDeleteClicked(v);
   };
 
   const handleLock = () => {
     setChangedStudent({ ...changedStudent, locked: !changedStudent.locked });
+    setSelectedStudent({
+      ...selectedStudent,
+      locked: !changedStudent.locked});
+    const newStudentList = studentList.map((student) => {
+      if (student.id === selectedStudent.id) {
+        return selectedStudent;
+      } else {
+        return student;
+      }
+    });
+    setStudentList(newStudentList);
+  };
+
+  const handleDelete = () => {
+    const newStudentList = studentList.filter(
+        (item) => item.id !== selectedStudent.id
+    );
+    setStudentList(newStudentList);
+    setSelectedStudent({
+      id: false,
+      name: false,
+      grade: false,
+      profileImg: false,
+    });
+    history.push("/students");
   };
 
   return (
@@ -81,7 +108,7 @@ const DetailPage = () => {
           changedStudent={changedStudent}
           setChangedStudent={setChangedStudent}
           handleSave={handleSave}
-          handleDelete={handleDelete}
+          handleConfirm={handleConfirm}
           handleLock={handleLock}
         />
         <Profile />
@@ -95,7 +122,8 @@ const DetailPage = () => {
         <Comments />
         <DeleteConfirm
           deleteClicked={deleteClicked}
-          handleDelete={handleDelete}
+          onConfirm={handleDelete}
+          onCancel={() => handleConfirm(false)}
         />
         {changedStudent.locked ? <LockBox /> : null}
       </div>

@@ -1,18 +1,9 @@
 import "./LoginPage.css";
-import { useStudentContext } from "../Context/StudentContext";
-import { Link, useHistory } from "react-router-dom";
+import {useStudentContext} from "../Context/StudentContext";
 
-const LoginPage = ({ handleLogin }) => {
-  const {
-    studentList,
-    setStudentList,
-    selectedStudent,
-    setSelectedStudent,
-    login,
-    setLogin,
-  } = useStudentContext();
+const LoginPage = () => {
 
-  const history = useHistory();
+  const {handleLogin} = useStudentContext();
 
   return (
     <div className="loginWrapper">
@@ -24,7 +15,7 @@ const LoginPage = ({ handleLogin }) => {
           <p className="loginText">Password</p>
           <p className="forgotPassword">Forgot password?</p>
           <input className="loginInput" />
-          <button className="loginButton" onClick={handleLogin}>
+          <button className="loginButton" onClick={() => handleLogin(true)}>
             <p className="loginButtonText">Sign in</p>
           </button>
         </div>
