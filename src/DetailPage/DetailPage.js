@@ -1,6 +1,6 @@
 import "./DetailPage.css";
 import { useEffect, useState } from "react";
-import { useHistory} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
 import { useStudentContext } from "../Context/StudentContext";
@@ -10,23 +10,21 @@ import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
 
 const DetailPage = () => {
-  const [changedStudent, setChangedStudent] = useState({});
-  const [deleteClicked, setDeleteClicked] = useState(false);
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
-    useStudentContext();
-
+  const { studentList, setStudentList } = useStudentContext();
+  const params = useParams();
   const history = useHistory();
-
-  useEffect(() => {
-    setChangedStudent({
-      ...selectedStudent,
-      email: selectedStudent.email.split("@")[0],
-    });
-  }, [selectedStudent]);
+  const targetStudent = studentList.find(
+    (item) => item.id.toString() === params.id
+  );
+  const [changedStudent, setChangedStudent] = useState({
+    ...targetStudent,
+    email: targetStudent.email.split("@")[0],
+  });
+  const [deleteClicked, setDeleteClicked] = useState(false);
 
   const handleEmailChange = (e) => {
-    if (e.target.value && e.target.value.slice(-1) === '@'){
-      window.alert("@는 사용할 수 없습니다.")
+    if (e.target.value.includes("@")) {
+      window.alert("@는 사용할 수 없습니다.");
       return;
     }
     const newChangedStudent = { ...changedStudent, email: e.target.value };
@@ -53,13 +51,12 @@ const DetailPage = () => {
   };
 
   const handleSave = () => {
-    setSelectedStudent({
-      ...changedStudent,
-      email: changedStudent.email.concat("@waffle.hs.kr"),
-    });
     const newStudentList = studentList.map((student) => {
-      if (student.id === selectedStudent.id) {
-        return selectedStudent;
+      if (student.id === changedStudent.id) {
+        return {
+          ...changedStudent,
+          email: changedStudent.email + "@waffle.hs.kr",
+        };
       } else {
         return student;
       }
@@ -74,12 +71,9 @@ const DetailPage = () => {
 
   const handleLock = () => {
     setChangedStudent({ ...changedStudent, locked: !changedStudent.locked });
-    setSelectedStudent({
-      ...selectedStudent,
-      locked: !changedStudent.locked});
     const newStudentList = studentList.map((student) => {
-      if (student.id === selectedStudent.id) {
-        return selectedStudent;
+      if (student.id === changedStudent.id) {
+        return { ...student, locked: !student.lock };
       } else {
         return student;
       }
@@ -89,15 +83,9 @@ const DetailPage = () => {
 
   const handleDelete = () => {
     const newStudentList = studentList.filter(
-        (item) => item.id !== selectedStudent.id
+      (item) => item.id !== changedStudent.id
     );
     setStudentList(newStudentList);
-    setSelectedStudent({
-      id: false,
-      name: false,
-      grade: false,
-      profileImg: false,
-    });
     history.push("/students");
   };
 

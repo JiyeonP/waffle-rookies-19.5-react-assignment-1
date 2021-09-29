@@ -1,10 +1,8 @@
 import "./Profile.css";
-import { useState, useEffect } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
 
 const Profile = () => {
-  const { selectedStudent } =
-    useStudentContext();
+  const { selectedStudent } = useStudentContext();
 
   return (
     <div>

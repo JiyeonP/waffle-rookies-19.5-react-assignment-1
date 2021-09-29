@@ -1,10 +1,9 @@
 import "./ViewProfile.css";
-import { useState, useEffect } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
 
 const ViewProfile = () => {
-  const { selectedStudent } = useStudentContext();
+  const { studentList, selectedStudent } = useStudentContext();
 
   const history = useHistory();
 
@@ -12,7 +11,7 @@ const ViewProfile = () => {
 
   return (
     <div className="profile1Wrapper">
-      {!selectedStudent.id ? (
+      {!studentList.find((item) => item.id === selectedStudent.id) ? (
         <div className="emptyView">왼쪽 표에서 학생을 선택해 주세요.</div>
       ) : (
         <div className="profile1Page">

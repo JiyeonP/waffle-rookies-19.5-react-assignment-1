@@ -3,8 +3,7 @@ import { useStudentContext } from "../../Context/StudentContext";
 import { PieChart, Pie, LabelList } from "recharts";
 
 const DashBoard = () => {
-  const { studentList } =
-    useStudentContext();
+  const { studentList } = useStudentContext();
 
   const gradeData = [
     {
@@ -20,10 +19,6 @@ const DashBoard = () => {
       count: studentList.filter((item) => item.grade === 3).length,
     },
   ];
-
-  const nameLabel = function (entry) {
-    return entry.name;
-  };
 
   return (
     <div className="dashBoard">

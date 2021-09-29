@@ -3,7 +3,6 @@ import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
 
 const DeleteConfirm = ({ deleteClicked, onConfirm, onCancel }) => {
-
   const history = useHistory();
 
   return (

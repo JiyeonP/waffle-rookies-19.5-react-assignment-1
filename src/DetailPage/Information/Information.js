@@ -1,6 +1,4 @@
 import "./Information.css";
-import { useState, useEffect } from "react";
-import { useStudentContext } from "../../Context/StudentContext";
 import NumberFormat from "react-number-format";
 
 const Information = ({

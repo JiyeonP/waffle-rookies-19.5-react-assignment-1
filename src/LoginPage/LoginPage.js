@@ -1,9 +1,8 @@
 import "./LoginPage.css";
-import {useStudentContext} from "../Context/StudentContext";
+import { useStudentContext } from "../Context/StudentContext";
 
 const LoginPage = () => {
-
-  const {handleLogin} = useStudentContext();
+  const { handleLogin } = useStudentContext();
 
   return (
     <div className="loginWrapper">

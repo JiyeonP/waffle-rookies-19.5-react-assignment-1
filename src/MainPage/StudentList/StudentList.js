@@ -7,9 +7,9 @@ const StudentList = ({ searchKey }) => {
     useStudentContext();
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 
-  const selectChange = (targetStudent) => {
-    if (selectedStudent !== targetStudent) {
-      setSelectedStudent(targetStudent);
+  const selectChange = (changedStudent) => {
+    if (selectedStudent !== changedStudent) {
+      setSelectedStudent(changedStudent);
     } else {
       setSelectedStudent({
         id: false,

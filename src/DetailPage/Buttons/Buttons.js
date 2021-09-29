@@ -1,5 +1,4 @@
 import "./Buttons.css";
-import { useStudentContext } from "../../Context/StudentContext";
 import { Link, useHistory } from "react-router-dom";
 
 const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
@@ -41,7 +40,7 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
       )}
       <button
         className={`defaultButton ${!changedStudent.locked ? "delete" : ""}`}
-        onClick={!changedStudent.lock ? () => handleConfirm(true) : null}
+        onClick={!changedStudent.locked ? () => handleConfirm(true) : null}
       >
         <img
           className="buttonImg"
@@ -52,7 +51,7 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
       </button>
       <button
         className={`defaultButton ${!changedStudent.locked ? "save" : ""}`}
-        onClick={!changedStudent.lock ? handleSave : null}
+        onClick={!changedStudent.locked ? handleSave : null}
       >
         <img
           className="buttonImg"
