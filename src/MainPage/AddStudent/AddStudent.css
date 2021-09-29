@@ -6,7 +6,7 @@
 
 .wrapper.show {
   visibility: visible;
-  opacity: 100%;
+  opacity: 1;
 }
 
 .backBox {
@@ -23,9 +23,9 @@
 .studentAddPage {
   position: absolute;
   width: 300px;
-  height: 130px;
+  height: 110px;
   left: calc(50% - 150px);
-  top: calc(50% - 65px);
+  top: calc(50% - 55px);
   display: table;
   padding: 10px;
 
@@ -68,7 +68,7 @@
   position: absolute;
   width: 45px;
   height: 25px;
-  top: 95px;
+  top: 75px;
   left: 180px;
   background-color: #c3b0fb;
   border-width: 1px;
@@ -81,7 +81,7 @@
   position: absolute;
   width: 45px;
   height: 25px;
-  top: 95px;
+  top: 75px;
   left: 230px;
   background-color: #fafad2;
   border-width: 1px;

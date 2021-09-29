@@ -1,6 +1,6 @@
 import "./ControlBar.css";
 
-const ControlBar = ({ setSearchKey, searchKey, startAddStudent }) => {
+const ControlBar = ({ setSearchKey, searchKey, handleAddStudent }) => {
   return (
     <div className="controlBar">
       <input
@@ -11,7 +11,7 @@ const ControlBar = ({ setSearchKey, searchKey, startAddStudent }) => {
           setSearchKey(e.target.value);
         }}
       />
-      <button className="addButton" onClick={startAddStudent}>
+      <button className="addButton" onClick={handleAddStudent}>
         추가
       </button>
     </div>

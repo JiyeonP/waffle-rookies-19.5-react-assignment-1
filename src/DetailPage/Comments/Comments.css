@@ -1,0 +1,26 @@
+.commentHeader {
+  position: relative;
+  width: 50px;
+  height: 20px;
+  left: 400px;
+  top: -490px;
+
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #d0d0d0;
+}
+
+.commentBox {
+  position: relative;
+  width: 350px;
+  height: 470px;
+  left: 390px;
+  top: -490px;
+
+  border: 1px solid black;
+  box-sizing: border-box;
+
+  text-align: center;
+  line-height: 470px;
+}

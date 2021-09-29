@@ -1,0 +1,128 @@
+.loginWrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.loginPage {
+  margin: auto;
+  height: 100%;
+  width: 760px;
+  top: 20px;
+
+  border-width: 2px;
+  border-color: black;
+}
+
+.loginTitle {
+  position: absolute;
+  width: 400px;
+  left: calc(50% - 200px);
+  top: calc(50% - 210px);
+
+  font-size: 20px;
+  text-align: center;
+}
+
+.loginBox {
+  position: absolute;
+  width: 400px;
+  height: 270px;
+  left: calc(50% - 200px);
+  top: calc(50% - 150px);
+
+  background-color: #f1f1f1;
+  border: 2px solid #dddddd;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.loginText {
+  position: relative;
+  left: 50px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.forgotPassword {
+  position: absolute;
+  left: 210px;
+  top: 95px;
+
+  color: steelblue;
+}
+
+.loginInput {
+  position: relative;
+  width: 280px;
+  height: 25px;
+  left: 50px;
+
+  border: 2px solid #dddddd;
+  border-radius: 5px;
+}
+
+.loginButton {
+  position: relative;
+  width: 286px;
+  height: 30px;
+  left: 50px;
+  margin-top: 30px;
+  text-decoration: none;
+  display: block;
+
+  background-color: #559b4f;
+  border: 2px solid #559b4f;
+  border-radius: 5px;
+}
+
+.loginButtonText {
+  position: relative;
+  width: 286px;
+  height: 30px;
+  text-align: center;
+  top: -12px;
+
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.createAccountBox {
+  position: absolute;
+  width: 400px;
+  height: 70px;
+  left: calc(50% - 200px);
+  top: calc(50% + 150px);
+  line-height: 35px;
+
+  background-color: white;
+  border: 2px solid #f5f5f5;
+  border-radius: 20px;
+  box-sizing: border-box;
+  display: inline-flex;
+}
+
+.createAccountText {
+  margin-left: 50px;
+  width: 100px;
+}
+
+.createAccount {
+  margin-left: 30px;
+  color: steelblue;
+}
+
+.etcBox {
+  position: absolute;
+  left: calc(50% - 200px);
+  top: calc(50% + 300px);
+  display: inline-flex;
+}
+
+.etcText {
+  margin-left: 40px;
+  color: steelblue;
+}
