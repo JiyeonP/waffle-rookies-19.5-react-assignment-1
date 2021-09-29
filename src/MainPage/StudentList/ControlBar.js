@@ -11,7 +11,7 @@ const ControlBar = ({ setSearchKey, searchKey, handleAddStudent }) => {
           setSearchKey(e.target.value);
         }}
       />
-      <button className="addButton" onClick={handleAddStudent}>
+      <button className="addButton" onClick={() => handleAddStudent(true)}>
         추가
       </button>
     </div>

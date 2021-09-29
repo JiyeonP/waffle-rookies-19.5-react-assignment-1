@@ -1,8 +1,7 @@
 import "./Buttons.css";
-import { useStudentContext } from "../../Context/StudentContext";
 import { Link, useHistory } from "react-router-dom";
 
-const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
+const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
   const history = useHistory();
 
   const goStudentList = () => history.push("/students");
@@ -21,7 +20,7 @@ const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
         </Link>
       </button>
       {changedStudent.locked ? (
-        <button className={`defaultButton ${"lock"}`} onClick={handleLock}>
+        <button className="defaultButton lock" onClick={handleLock}>
           <img
             className="buttonImg"
             src="https://cdn-icons-png.flaticon.com/512/597/597356.png"
@@ -41,7 +40,7 @@ const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
       )}
       <button
         className={`defaultButton ${!changedStudent.locked ? "delete" : ""}`}
-        onClick={!changedStudent.lock ? handleDelete : null}
+        onClick={!changedStudent.locked ? () => handleConfirm(true) : null}
       >
         <img
           className="buttonImg"
@@ -52,7 +51,7 @@ const Buttons = ({ changedStudent, handleSave, handleDelete, handleLock }) => {
       </button>
       <button
         className={`defaultButton ${!changedStudent.locked ? "save" : ""}`}
-        onClick={!changedStudent.lock ? handleSave : null}
+        onClick={!changedStudent.locked ? handleSave : null}
       >
         <img
           className="buttonImg"

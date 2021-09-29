@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
 
 const AddStudent = ({ addStudent, handleAddStudent }) => {
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
+  const { studentList, setStudentList, setSelectedStudent } =
     useStudentContext();
   const [name, setName] = useState("");
-  const [grade, setGrade] = useState(NaN);
+  const [grade, setGrade] = useState("");
   const [profileImg, setProfileImg] = useState("");
 
   const handleStudentAdd = () => {
@@ -47,9 +47,9 @@ const AddStudent = ({ addStudent, handleAddStudent }) => {
   };
 
   const handleClose = () => {
-    handleAddStudent();
+    handleAddStudent(false);
     setName("");
-    setGrade(NaN);
+    setGrade("");
     setProfileImg("");
   };
 

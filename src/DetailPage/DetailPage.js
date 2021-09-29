@@ -10,23 +10,23 @@ import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
 
 const DetailPage = () => {
+  const { studentList, setStudentList } = useStudentContext();
   const params = useParams();
-  const [changedStudent, setChangedStudent] = useState({});
-  const [deleteClicked, setDeleteClicked] = useState(false);
-  const { studentList, setStudentList, selectedStudent, setSelectedStudent } =
-    useStudentContext();
-
   const history = useHistory();
-
-  useEffect(() => {
-    console.log("selected: ", selectedStudent);
-    setChangedStudent({
-      ...selectedStudent,
-      email: selectedStudent.email.split("@")[0],
-    });
-  }, [selectedStudent]);
+  const targetStudent = studentList.find(
+    (item) => item.id.toString() === params.id
+  );
+  const [changedStudent, setChangedStudent] = useState({
+    ...targetStudent,
+    email: targetStudent.email.split("@")[0],
+  });
+  const [deleteClicked, setDeleteClicked] = useState(false);
 
   const handleEmailChange = (e) => {
+    if (e.target.value.includes("@")) {
+      window.alert("@는 사용할 수 없습니다.");
+      return;
+    }
     const newChangedStudent = { ...changedStudent, email: e.target.value };
     setChangedStudent(newChangedStudent);
   };
@@ -51,13 +51,12 @@ const DetailPage = () => {
   };
 
   const handleSave = () => {
-    setSelectedStudent({
-      ...changedStudent,
-      email: changedStudent.email.concat("@waffle.hs.kr"),
-    });
     const newStudentList = studentList.map((student) => {
-      if (student.id === selectedStudent.id) {
-        return selectedStudent;
+      if (student.id === changedStudent.id) {
+        return {
+          ...changedStudent,
+          email: changedStudent.email + "@waffle.hs.kr",
+        };
       } else {
         return student;
       }
@@ -66,12 +65,28 @@ const DetailPage = () => {
     history.push("/students");
   };
 
-  const handleDelete = () => {
-    setDeleteClicked(!deleteClicked);
+  const handleConfirm = (v) => {
+    setDeleteClicked(v);
   };
 
   const handleLock = () => {
     setChangedStudent({ ...changedStudent, locked: !changedStudent.locked });
+    const newStudentList = studentList.map((student) => {
+      if (student.id === changedStudent.id) {
+        return { ...student, locked: !student.lock };
+      } else {
+        return student;
+      }
+    });
+    setStudentList(newStudentList);
+  };
+
+  const handleDelete = () => {
+    const newStudentList = studentList.filter(
+      (item) => item.id !== changedStudent.id
+    );
+    setStudentList(newStudentList);
+    history.push("/students");
   };
 
   return (
@@ -81,7 +96,7 @@ const DetailPage = () => {
           changedStudent={changedStudent}
           setChangedStudent={setChangedStudent}
           handleSave={handleSave}
-          handleDelete={handleDelete}
+          handleConfirm={handleConfirm}
           handleLock={handleLock}
         />
         <Profile />
@@ -95,7 +110,8 @@ const DetailPage = () => {
         <Comments />
         <DeleteConfirm
           deleteClicked={deleteClicked}
-          handleDelete={handleDelete}
+          onConfirm={handleDelete}
+          onCancel={() => handleConfirm(false)}
         />
         {changedStudent.locked ? <LockBox /> : null}
       </div>
