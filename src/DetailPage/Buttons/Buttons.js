@@ -1,7 +1,7 @@
 import "./Buttons.css";
 import { Link, useHistory } from "react-router-dom";
 
-const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
+const Buttons = ({ changedStudent, handleCancel, handleSave, handleConfirm, handleLock }) => {
   const history = useHistory();
 
   const goStudentList = () => history.push("/students");
@@ -38,6 +38,17 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
           <p className="buttonText">잠금</p>
         </button>
       )}
+      <button
+          className={`defaultButton ${!changedStudent.locked ? "cancel" : ""}`}
+        onClick={!changedStudent.locked ? handleCancel : null}
+      >
+        <img
+          className="buttonImg"
+          src="https://cdn-icons-png.flaticon.com/512/60/60690.png"
+          alt="취소"
+        />
+        <p className="buttonText">취소</p>
+      </button>
       <button
         className={`defaultButton ${!changedStudent.locked ? "delete" : ""}`}
         onClick={!changedStudent.locked ? () => handleConfirm(true) : null}

@@ -1,22 +1,29 @@
 import "./StudentList.css";
 import Student from "./Student";
 import { useStudentContext } from "../../Context/StudentContext";
+import API from "../../API";
+import {useEffect} from "react";
 
 const StudentList = ({ searchKey }) => {
-  const { studentList, selectedStudent, setSelectedStudent } =
+  const { selectedStudentId, setSelectedStudentId, setLoading } =
     useStudentContext();
+  let studentList=[];
+
+  useEffect(()=>{
+    setLoading(true);
+    API.get("/student").then((res)=>{
+      studentList = res.data;
+    })
+    setLoading(false);
+  }, [selectedStudentId])
+
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 
   const selectChange = (changedStudent) => {
-    if (selectedStudent !== changedStudent) {
-      setSelectedStudent(changedStudent);
+    if (selectedStudentId !== changedStudent.id) {
+      setSelectedStudentId(changedStudent.id);
     } else {
-      setSelectedStudent({
-        id: false,
-        name: false,
-        grade: false,
-        profileImg: false,
-      });
+      setSelectedStudentId(false);
     }
   };
 
@@ -34,7 +41,7 @@ const StudentList = ({ searchKey }) => {
             <Student
               key={item.id}
               student={item}
-              selected={selectedStudent.id === item.id}
+              selected={selectedStudentId === item.id}
               selectChange={selectChange}
             />
           ))}

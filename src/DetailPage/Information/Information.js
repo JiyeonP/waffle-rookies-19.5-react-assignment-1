@@ -52,7 +52,7 @@ const Information = ({
             <p className="infoIndex">프로필</p>
             <input
               className="infoInput"
-              value={changedStudent.profileImg}
+              value={changedStudent.profile_img}
               onChange={(e) => handleProfileImgChange(e)}
             />
           </div>

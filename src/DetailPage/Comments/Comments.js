@@ -2,7 +2,7 @@ import "./Comments.css";
 import { useStudentContext } from "../../Context/StudentContext";
 
 const Comments = () => {
-  const { setStudentList, selectedStudent, setSelectedStudent } =
+  const { setStudentList, setSelectedStudent } =
     useStudentContext();
 
   return (

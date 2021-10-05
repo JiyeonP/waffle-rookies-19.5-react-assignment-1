@@ -1,17 +1,30 @@
 import "./ViewProfile.css";
 import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
+import API from "../../API";
+import {useEffect, useState} from "react";
 
 const ViewProfile = () => {
-  const { studentList, selectedStudent } = useStudentContext();
+  const {selectedStudentId, setLoading} = useStudentContext();
+  let selectedStudent=false;
+
+  useEffect(()=>{
+    setLoading(true);
+    API.get(`/student/${selectedStudentId}`).then((res)=>{
+      selectedStudent = res.data;
+    }).catch((error) => {
+      selectedStudent = false;
+    })
+    setLoading(false);
+  }, [selectedStudentId])
 
   const history = useHistory();
 
-  const goDetail = () => history.push(`/student/${selectedStudent.id}`);
+  const goDetail = () => history.push(`/student/${selectedStudentId}`);
 
   return (
     <div className="profile1Wrapper">
-      {!studentList.find((item) => item.id === selectedStudent.id) ? (
+      {!selectedStudent ? (
         <div className="emptyView">왼쪽 표에서 학생을 선택해 주세요.</div>
       ) : (
         <div className="profile1Page">
@@ -24,10 +37,10 @@ const ViewProfile = () => {
             />
           </div>
           <div className="profile1ImgWrapper">
-            {selectedStudent.profileImg ? (
+            {selectedStudent.profile_img ? (
               <img
                 className="profile1Img"
-                src={selectedStudent.profileImg}
+                src={selectedStudent.profile_img}
                 alt="profile img"
               />
             ) : (

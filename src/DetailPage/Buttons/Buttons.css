@@ -15,7 +15,7 @@
   position: relative;
   width: 70px;
   height: 30px;
-  left: 330px;
+  left: 260px;
   margin-right: 10px;
   display: inline-flex;
 
@@ -26,6 +26,14 @@
 
 .defaultButton.lock:hover {
   background-color: #adadad;
+}
+
+.defaultButton.cancel {
+  background-color: #bde1ef;
+}
+
+.defaultButton.cancel:hover {
+  background-color: #9cc0ce;
 }
 
 .defaultButton.save {

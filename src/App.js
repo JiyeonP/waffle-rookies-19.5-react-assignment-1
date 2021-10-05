@@ -6,35 +6,35 @@ import { useStudentContext } from "./Context/StudentContext";
 import LoginPage from "./LoginPage/LoginPage";
 
 function App() {
-  const { login, studentList } = useStudentContext();
+  const { studentList } = useStudentContext();
 
   return (
     <BrowserRouter>
-      <Switch>
-        {login ? (
-          <>
-            <Route path="/students" component={MainPage} exact={true} />
-            <Route
-              path="/student/:id"
-              render={(props) => {
-                if (
-                  studentList.find(
-                    (item) => item.id.toString() === props.match.params.id
-                  )
-                ) {
-                  return <DetailPage />;
-                }
-              }}
-            />
-            <Redirect to={"/students"} />
-          </>
-        ) : (
-          <>
-            <Route path="/login" render={() => <LoginPage />} exact={true} />
-            <Redirect to={"/login"} />
-          </>
-        )}
-      </Switch>
+      {localStorage.getItem("isLogin") === "yes" ? (
+        <Switch>
+          <Route path="/students" component={MainPage} exact={true} />
+          <Route
+            path="/student/:id"
+            render={(props) => {
+              if (
+                studentList.find(
+                  (item) => item.id.toString() === props.match.params.id
+                )
+              ) {
+                return <DetailPage />;
+              }
+              return <Redirect to={"/students"} />;
+            }}
+            exact={true}
+          />
+          <Redirect to="/students" />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route path="/login" render={() => <LoginPage />} exact={true} />
+          <Redirect to={"/login"} />
+        </Switch>
+      )}
     </BrowserRouter>
   );
 }

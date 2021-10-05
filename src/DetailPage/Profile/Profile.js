@@ -1,16 +1,13 @@
 import "./Profile.css";
-import { useStudentContext } from "../../Context/StudentContext";
 
-const Profile = () => {
-  const { selectedStudent } = useStudentContext();
-
+const Profile = ({changedStudent}) => {
   return (
     <div>
       <div className="profile2ImgWrapper">
-        {selectedStudent.profileImg ? (
+        {changedStudent.profile_img ? (
           <img
             className="profile2Img"
-            src={selectedStudent.profileImg}
+            src={changedStudent.profile_img}
             alt="profile img"
           />
         ) : (
@@ -24,11 +21,11 @@ const Profile = () => {
       <div className="profile2">
         <div className="profile2Line">
           <p className="profile2Index">이름</p>
-          <div className="profile2Value"> {selectedStudent.name}</div>
+          <div className="profile2Value"> {changedStudent.name}</div>
         </div>
         <div className="profile2Line">
           <p className="profile2Index">학년</p>
-          <div className="profile2Value"> {selectedStudent.grade}</div>
+          <div className="profile2Value"> {changedStudent.grade}</div>
         </div>
       </div>
     </div>

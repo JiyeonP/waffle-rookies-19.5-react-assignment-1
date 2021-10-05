@@ -1,9 +1,20 @@
 import "./DashBoard.css";
-import { useStudentContext } from "../../Context/StudentContext";
 import { PieChart, Pie, LabelList } from "recharts";
+import {useEffect, useState} from "react";
+import API from "../../API";
+import {useStudentContext} from "../../Context/StudentContext";
 
 const DashBoard = () => {
-  const { studentList } = useStudentContext();
+  const {setLoading} = useStudentContext();
+  let studentList = [];
+
+  useEffect(() => {
+    setLoading(true);
+    API.get("/student").then((res) => {
+      studentList = res.data;
+    });
+    setLoading(false);
+  }, []);
 
   const gradeData = [
     {
@@ -22,30 +33,30 @@ const DashBoard = () => {
 
   return (
     <div className="dashBoard">
-      <PieChart width={720} height={140}>
+      <div className="dashBoardSlot"></div>
+      <PieChart width={200} height={140}>
         <Pie
-          stroke="#ececec"
-          strokeWidth="2"
+          stroke="#ef7c6a"
+          strokeWidth="1"
           data={gradeData}
           cx="50%"
           cy="50%"
           dataKey="count"
           nameKey="grade"
           outerRadius={50}
-          fill="#ff8c5a"
+          fill="#ffccba"
         >
           <LabelList
-            stroke="#dd5555"
             strokeWidth="0.5"
             dataKey="grade"
             position="outside"
-            style={{ fontSize: "90%", fill: "#ff8888", fontWeight: "bold" }}
+            style={{ fontSize: "70%", fill: "#ef7c6a", fontWeight: "bold" }}
           />
           <LabelList
             stroke="none"
             dataKey="count"
             position="inside"
-            style={{ fontSize: "120%", fill: "#ffffff", fontWeight: "bold" }}
+            style={{ fontSize: "120%", fill: "#ef7c6a", fontWeight: "bold" }}
           />
         </Pie>
       </PieChart>

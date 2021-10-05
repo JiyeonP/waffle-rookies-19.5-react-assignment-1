@@ -1,49 +1,28 @@
 import "./AddStudent.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStudentContext } from "../../Context/StudentContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import API from "../../API";
 
 const AddStudent = ({ addStudent, handleAddStudent }) => {
-  const { studentList, setStudentList, setSelectedStudent } =
-    useStudentContext();
+  const { setSelectedStudentId, setLoading } = useStudentContext();
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [profile_img, setProfileImg] = useState("");
 
   const handleStudentAdd = () => {
-    if (!name || !grade) {
-      return window.alert("이름과 학년을 모두 입력하세요.");
-    }
-
-    if (![2, 3].includes(name.length)) {
-      return window.alert("이름을 다시 확인해주세요. (두 글자/세 글자 입력)");
-    }
-
-    if (![1, 2, 3].includes(Number(grade))) {
-      return window.alert("학년을 다시 확인해주세요. (1, 2, 3 중 입력)");
-    }
-
-    if (
-      studentList.find(
-        (item) => item.name === name && item.grade === Number(grade)
-      )
-    ) {
-      return window.alert("해당 학년에 동명이인이 존재합니다. (추가 불가)");
-    }
-
-    const newStudent = {
-      id: Math.random(),
+    API.post("/student", {
       name: name,
       grade: Number(grade),
-      phone: "",
-      email: "@waffle.hs.kr",
-      major: "frontend",
-      profileImg: "",
-      locked: false,
-    };
-
-    setStudentList([...studentList, newStudent]);
-    setSelectedStudent(newStudent);
-    handleClose();
+    })
+      .then((res) => {
+        setSelectedStudentId(res.data.id);
+        handleClose();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
   const handleClose = () => {

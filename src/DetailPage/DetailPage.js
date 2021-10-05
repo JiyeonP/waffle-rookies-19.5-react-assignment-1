@@ -1,5 +1,5 @@
 import "./DetailPage.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
@@ -8,23 +8,26 @@ import Information from "./Information/Information";
 import DeleteConfirm from "./DeleteConfirm/DeleteConfirm";
 import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
+import {toast} from "react-toastify";
 
 const DetailPage = () => {
   const { studentList, setStudentList } = useStudentContext();
   const params = useParams();
   const history = useHistory();
-  const targetStudent = studentList.find(
-    (item) => item.id.toString() === params.id
-  );
-  const [changedStudent, setChangedStudent] = useState({
-    ...targetStudent,
-    email: targetStudent.email.split("@")[0],
-  });
+  const targetStudent = {
+    ...studentList.find((item) => item.id.toString() === params.id),
+    email: studentList
+      .find((item) => item.id.toString() === params.id)
+      .email.split("@")[0],
+  };
+
+  const [changedStudent, setChangedStudent] = useState(targetStudent);
+
   const [deleteClicked, setDeleteClicked] = useState(false);
 
   const handleEmailChange = (e) => {
     if (e.target.value.includes("@")) {
-      window.alert("@는 사용할 수 없습니다.");
+      toast.error("@는 사용할 수 없습니다.");
       return;
     }
     const newChangedStudent = { ...changedStudent, email: e.target.value };
@@ -32,7 +35,7 @@ const DetailPage = () => {
   };
 
   const handlePhoneChange = (values) => {
-    const { formattedValue, value } = values;
+    const { value } = values;
     const newChangedStudent = {
       ...changedStudent,
       phone: value,
@@ -46,7 +49,7 @@ const DetailPage = () => {
   };
 
   const handleProfileImgChange = (e) => {
-    const newChangedStudent = { ...changedStudent, profileImg: e.target.value };
+    const newChangedStudent = { ...changedStudent, profile_img: e.target.value };
     setChangedStudent(newChangedStudent);
   };
 
@@ -62,7 +65,6 @@ const DetailPage = () => {
       }
     });
     setStudentList(newStudentList);
-    history.push("/students");
   };
 
   const handleConfirm = (v) => {
@@ -70,15 +72,24 @@ const DetailPage = () => {
   };
 
   const handleLock = () => {
-    setChangedStudent({ ...changedStudent, locked: !changedStudent.locked });
+    setChangedStudent({ ...targetStudent, locked: !changedStudent.locked });
     const newStudentList = studentList.map((student) => {
       if (student.id === changedStudent.id) {
-        return { ...student, locked: !student.lock };
+        return { ...student, locked: !changedStudent.locked };
       } else {
         return student;
       }
     });
     setStudentList(newStudentList);
+  };
+
+  const handleCancel = () => {
+    console.log("cancel applied");
+    setChangedStudent({
+      ...targetStudent,
+      email: targetStudent.email.split("@")[0],
+      locked: false,
+    });
   };
 
   const handleDelete = () => {
@@ -95,11 +106,14 @@ const DetailPage = () => {
         <Buttons
           changedStudent={changedStudent}
           setChangedStudent={setChangedStudent}
+          handleCancel={handleCancel}
           handleSave={handleSave}
           handleConfirm={handleConfirm}
           handleLock={handleLock}
         />
-        <Profile />
+        <Profile
+          changedStudent={changedStudent}
+        />
         <Information
           changedStudent={changedStudent}
           handleEmailChange={handleEmailChange}

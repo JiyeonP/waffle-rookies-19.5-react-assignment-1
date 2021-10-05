@@ -4,8 +4,15 @@
   height: 140px;
   left: 20px;
   top: 70px;
-  background: #ececec;
+  background: #f1f1f1;
 
+  display: flex;
+}
+
+.dashBoardSlot {
+  margin: 30px;
+  width: 400px;
+  color: #222222;
+  font-weight: bold;
   text-align: center;
-  line-height: 140px;
 }
