@@ -6,10 +6,11 @@ import ControlBar from "./StudentList/ControlBar";
 import StudentList from "./StudentList/StudentList";
 import ViewProfile from "./ViewProfile/ViewProfile";
 import AddStudent from "./AddStudent/AddStudent";
-import { withCookies, Cookies } from "react-cookie";
+import { withCookies } from "react-cookie";
 import PopUp from "./PopUp/PopUp";
 
 const MainPage = (props) => {
+  const [selectedStudentId, setSelectedStudentId] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
   const [searchKey, setSearchKey] = useState("");
 
@@ -48,10 +49,16 @@ const MainPage = (props) => {
           searchKey={searchKey}
           handleAddStudent={handleAddStudent}
         />
-        <StudentList searchKey={searchKey} />
+        <StudentList
+            selectedStudentId={selectedStudentId}
+            setSelectedStudentId={setSelectedStudentId}
+            searchKey={searchKey} />
         <div className="divideLine" />
-        <ViewProfile />
+        <ViewProfile
+          selectedStudentId={selectedStudentId}
+        />
         <AddStudent
+            setSelectedStudentId={setSelectedStudentId}
           addStudent={addStudent}
           handleAddStudent={handleAddStudent}
         />

@@ -1,9 +1,6 @@
 import "./Comments.css";
-import { useStudentContext } from "../../Context/StudentContext";
 
 const Comments = () => {
-  const { setStudentList, setSelectedStudent } =
-    useStudentContext();
 
   return (
     <div>

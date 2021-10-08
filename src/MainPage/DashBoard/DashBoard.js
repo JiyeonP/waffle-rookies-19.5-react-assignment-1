@@ -1,19 +1,15 @@
 import "./DashBoard.css";
 import { PieChart, Pie, LabelList } from "recharts";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import API from "../../API";
-import {useStudentContext} from "../../Context/StudentContext";
 
 const DashBoard = () => {
-  const {setLoading} = useStudentContext();
   let studentList = [];
 
   useEffect(() => {
-    setLoading(true);
     API.get("/student").then((res) => {
       studentList = res.data;
     });
-    setLoading(false);
   }, []);
 
   const gradeData = [
@@ -33,7 +29,7 @@ const DashBoard = () => {
 
   return (
     <div className="dashBoard">
-      <div className="dashBoardSlot"></div>
+      <div className="dashBoardSlot">안녕하세요,<br/>와플 고등학교 홈페이지 입니다.</div>
       <PieChart width={200} height={140}>
         <Pie
           stroke="#ef7c6a"

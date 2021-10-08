@@ -1,12 +1,13 @@
 import "./AddStudent.css";
-import { useEffect, useState } from "react";
-import { useStudentContext } from "../../Context/StudentContext";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import API from "../../API";
+import "react-toastify/dist/ReactToastify.css";
+import {useAuthContext} from "../../Context/AuthContext";
 
-const AddStudent = ({ addStudent, handleAddStudent }) => {
-  const { setSelectedStudentId, setLoading } = useStudentContext();
+const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
+  const {setLogin} = useAuthContext();
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
   const [profile_img, setProfileImg] = useState("");
@@ -21,6 +22,12 @@ const AddStudent = ({ addStudent, handleAddStudent }) => {
         handleClose();
       })
       .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        }
         toast.error(error.response.data.message);
       });
   };

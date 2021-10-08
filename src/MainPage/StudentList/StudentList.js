@@ -1,21 +1,16 @@
 import "./StudentList.css";
 import Student from "./Student";
-import { useStudentContext } from "../../Context/StudentContext";
 import API from "../../API";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
-const StudentList = ({ searchKey }) => {
-  const { selectedStudentId, setSelectedStudentId, setLoading } =
-    useStudentContext();
-  let studentList=[];
+const StudentList = ({ selectedStudentId, setSelectedStudentId, searchKey }) => {
+  const [studentList, setStudentList] = useState([]);
 
-  useEffect(()=>{
-    setLoading(true);
-    API.get("/student").then((res)=>{
-      studentList = res.data;
-    })
-    setLoading(false);
-  }, [selectedStudentId])
+  useEffect(() => {
+    API.get("/student").then((res) => {
+      setStudentList(res.data);
+    });
+  }, [selectedStudentId]);
 
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 

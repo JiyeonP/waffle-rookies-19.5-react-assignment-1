@@ -1,29 +1,31 @@
 import "./DetailPage.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
-import { useStudentContext } from "../Context/StudentContext";
 import Information from "./Information/Information";
 import DeleteConfirm from "./DeleteConfirm/DeleteConfirm";
 import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import API from "../API";
+import { useAuthContext } from "../Context/AuthContext";
 
 const DetailPage = () => {
-  const { studentList, setStudentList } = useStudentContext();
+  const { setLogin } = useAuthContext();
+  const [changedStudent, setChangedStudent] = useState(targetStudent);
+  const [deleteClicked, setDeleteClicked] = useState(false);
   const params = useParams();
   const history = useHistory();
-  const targetStudent = {
-    ...studentList.find((item) => item.id.toString() === params.id),
-    email: studentList
-      .find((item) => item.id.toString() === params.id)
-      .email.split("@")[0],
-  };
+  let targetStudent = {};
 
-  const [changedStudent, setChangedStudent] = useState(targetStudent);
-
-  const [deleteClicked, setDeleteClicked] = useState(false);
+  useEffect(() => {
+    API.get(`student/${params.id}`).then((res) => {
+      targetStudent = { ...res.data, email: res.data.email.split["@"][0] };
+    });
+    setChangedStudent(targetStudent);
+  }, []);
 
   const handleEmailChange = (e) => {
     if (e.target.value.includes("@")) {
@@ -49,22 +51,31 @@ const DetailPage = () => {
   };
 
   const handleProfileImgChange = (e) => {
-    const newChangedStudent = { ...changedStudent, profile_img: e.target.value };
+    const newChangedStudent = {
+      ...changedStudent,
+      profile_img: e.target.value,
+    };
     setChangedStudent(newChangedStudent);
   };
 
   const handleSave = () => {
-    const newStudentList = studentList.map((student) => {
-      if (student.id === changedStudent.id) {
-        return {
-          ...changedStudent,
-          email: changedStudent.email + "@waffle.hs.kr",
-        };
-      } else {
-        return student;
-      }
-    });
-    setStudentList(newStudentList);
+    API.patch(`student/${params.id}`, {
+      ...changedStudent,
+      email: changedStudent.email + "@waffle.hs.kr",
+    })
+      .then((res) => {
+        toast.success("저장되었습니다.");
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        }
+        toast.error(error.response.message);
+      });
+    targetStudent = changedStudent;
   };
 
   const handleConfirm = (v) => {
@@ -73,18 +84,23 @@ const DetailPage = () => {
 
   const handleLock = () => {
     setChangedStudent({ ...targetStudent, locked: !changedStudent.locked });
-    const newStudentList = studentList.map((student) => {
-      if (student.id === changedStudent.id) {
-        return { ...student, locked: !changedStudent.locked };
-      } else {
-        return student;
+
+    API.patch(`student/${params.id}`, {
+      ...changedStudent,
+      email: changedStudent.email + "@waffle.hs.kr",
+      locked: true,
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        toast.error("토큰이 만료되었습니다.");
+        localStorage.setItem("isLogin", "no");
+        localStorage.setItem("token", "none");
+        setLogin(false);
       }
+      toast.error(error.response.message);
     });
-    setStudentList(newStudentList);
   };
 
   const handleCancel = () => {
-    console.log("cancel applied");
     setChangedStudent({
       ...targetStudent,
       email: targetStudent.email.split("@")[0],
@@ -93,10 +109,15 @@ const DetailPage = () => {
   };
 
   const handleDelete = () => {
-    const newStudentList = studentList.filter(
-      (item) => item.id !== changedStudent.id
-    );
-    setStudentList(newStudentList);
+    API.delete(`student/${params.id}`).catch((error) => {
+      if (error.response.status === 401) {
+        toast.error("토큰이 만료되었습니다.");
+        localStorage.setItem("isLogin", "no");
+        localStorage.setItem("token", "none");
+        setLogin(false);
+      }
+      toast.error(error.response.message);
+    });
     history.push("/students");
   };
 
@@ -111,9 +132,7 @@ const DetailPage = () => {
           handleConfirm={handleConfirm}
           handleLock={handleLock}
         />
-        <Profile
-          changedStudent={changedStudent}
-        />
+        <Profile changedStudent={changedStudent} />
         <Information
           changedStudent={changedStudent}
           handleEmailChange={handleEmailChange}

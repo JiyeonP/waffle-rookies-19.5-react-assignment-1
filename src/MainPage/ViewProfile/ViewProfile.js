@@ -1,21 +1,27 @@
 import "./ViewProfile.css";
-import { useStudentContext } from "../../Context/StudentContext";
 import { useHistory } from "react-router-dom";
 import API from "../../API";
 import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {useAuthContext} from "../../Context/AuthContext";
 
-const ViewProfile = () => {
-  const {selectedStudentId, setLoading} = useStudentContext();
-  let selectedStudent=false;
+const ViewProfile = ({selectedStudentId}) => {
+  const {setLogin} = useAuthContext();
+  const [selectedStudent, setSelectedStudent] = useState(false);
 
   useEffect(()=>{
-    setLoading(true);
     API.get(`/student/${selectedStudentId}`).then((res)=>{
-      selectedStudent = res.data;
+      setSelectedStudent(res.data);
     }).catch((error) => {
-      selectedStudent = false;
+      if (error.response.status === 401){
+        toast.error("토큰이 만료되었습니다.")
+        localStorage.setItem("isLogin", "no");
+        localStorage.setItem("token", "none");
+        setLogin(false);
+      }
+      setSelectedStudent(false);
     })
-    setLoading(false);
   }, [selectedStudentId])
 
   const history = useHistory();

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ContextProvider } from "./Context/StudentContext";
+import { ContextProvider } from "./Context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 

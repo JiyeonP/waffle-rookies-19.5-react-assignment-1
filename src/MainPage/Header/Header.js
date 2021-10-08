@@ -1,12 +1,14 @@
 import "./Header.css";
-import { useStudentContext } from "../../Context/StudentContext";
+import { useAuthContext } from "../../Context/AuthContext";
+import API from "../../API";
 
 const Header = () => {
-  const { useLocalStorage, setUseLocalStorage } = useStudentContext();
+  const { setLogin } = useAuthContext();
 
   const Logout = () => {
     localStorage.setItem("isLogin", "no");
-    setUseLocalStorage(!useLocalStorage);
+    localStorage.setItem("token", "none");
+    setLogin(false);
   };
 
   return (

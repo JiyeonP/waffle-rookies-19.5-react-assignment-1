@@ -1,5 +1,5 @@
 import "./LoginPage.css";
-import { useStudentContext } from "../Context/StudentContext";
+import {useAuthContext} from "../Context/AuthContext";
 import axios from "axios";
 import API from "../API";
 import { useState } from "react";
@@ -9,26 +9,27 @@ import "react-toastify/dist/ReactToastify.css";
 const LoginPage = () => {
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const { useLocalStorage, setUseLocalStorage, setLoading } = useStudentContext();
+  const { setLogin } = useAuthContext();
 
-  const Login = () => {
-    setLoading(true);
+  const handleLogin = () => {
     API.post("/auth/login", {
       username: userId,
       password: userPassword,
     })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        API.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${res.data.token}`;
-        localStorage.setItem("isLogin", "yes");
-        setUseLocalStorage(!useLocalStorage);
-      })
-      .catch((error) => {
-        toast.error("로그인 정보가 틀렸습니다!");
-      });
-    setLoading(false);
+        .then((res) => {
+          localStorage.setItem("isLogin", "yes");
+          localStorage.setItem("token", res.data.access_token);
+          setLogin(true);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            toast.error("토큰이 만료되었습니다.");
+            localStorage.setItem("isLogin", "no");
+            localStorage.setItem("token", "none");
+            setLogin(false);
+          }
+          toast.error("로그인 정보가 틀렸습니다!");
+        });
   };
 
   const handleId = (e) => {
@@ -59,7 +60,7 @@ const LoginPage = () => {
               handlePassword(e);
             }}
           />
-          <button className="loginButton" onClick={Login}>
+          <button className="loginButton" onClick={handleLogin}>
             <p className="loginButtonText">Sign in</p>
           </button>
         </div>
