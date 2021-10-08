@@ -27,8 +27,11 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
           localStorage.setItem("isLogin", "no");
           localStorage.setItem("token", "none");
           setLogin(false);
+        } else if (error.response.status === 400){
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
         }
-        toast.error(error.response.data.message);
       });
   };
 
@@ -50,6 +53,10 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
             placeholder="이름을 입력하세요. (한글)"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyPress={ (e) => {
+              if (e.key === 'Enter') {
+                handleStudentAdd();
+              }}}
           />
         </div>
         <div className="addLine">
@@ -58,10 +65,12 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
             className="addInput"
             placeholder="학년을 입력하세요. (숫자)"
             type="number"
-            min="1"
-            max="3"
             value={grade}
             onChange={(e) => setGrade(e.target.value)}
+            onKeyPress={ (e) => {
+              if (e.key === 'Enter') {
+                handleStudentAdd();
+              }}}
           />
         </div>
         <button className="close" onClick={handleClose}>

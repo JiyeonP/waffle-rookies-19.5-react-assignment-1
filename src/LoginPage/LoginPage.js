@@ -22,13 +22,11 @@ const LoginPage = () => {
           setLogin(true);
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            toast.error("토큰이 만료되었습니다.");
-            localStorage.setItem("isLogin", "no");
-            localStorage.setItem("token", "none");
-            setLogin(false);
+          if (error.response.status === 401){
+            toast.error("로그인 정보가 틀렸습니다!");
+          } else {
+            toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
           }
-          toast.error("로그인 정보가 틀렸습니다!");
         });
   };
 

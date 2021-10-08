@@ -1,13 +1,13 @@
 import "./Profile.css";
 
-const Profile = ({changedStudent}) => {
+const Profile = ({targetStudent}) => {
   return (
     <div>
       <div className="profile2ImgWrapper">
-        {changedStudent.profile_img ? (
+        {targetStudent.profile_img ? (
           <img
             className="profile2Img"
-            src={changedStudent.profile_img}
+            src={targetStudent.profile_img}
             alt="profile img"
           />
         ) : (
@@ -21,11 +21,11 @@ const Profile = ({changedStudent}) => {
       <div className="profile2">
         <div className="profile2Line">
           <p className="profile2Index">이름</p>
-          <div className="profile2Value"> {changedStudent.name}</div>
+          <div className="profile2Value"> {targetStudent.name}</div>
         </div>
         <div className="profile2Line">
           <p className="profile2Index">학년</p>
-          <div className="profile2Value"> {changedStudent.grade}</div>
+          <div className="profile2Value"> {targetStudent.grade}</div>
         </div>
       </div>
     </div>

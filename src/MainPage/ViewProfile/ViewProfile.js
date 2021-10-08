@@ -11,17 +11,24 @@ const ViewProfile = ({selectedStudentId}) => {
   const [selectedStudent, setSelectedStudent] = useState(false);
 
   useEffect(()=>{
+    if (selectedStudentId === false){
+      setSelectedStudent(false);
+    } else {
     API.get(`/student/${selectedStudentId}`).then((res)=>{
       setSelectedStudent(res.data);
     }).catch((error) => {
-      if (error.response.status === 401){
-        toast.error("토큰이 만료되었습니다.")
+      if (error.response.status === 401) {
+        toast.error("토큰이 만료되었습니다.");
         localStorage.setItem("isLogin", "no");
         localStorage.setItem("token", "none");
         setLogin(false);
+      } else if (error.response.status === 400){
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
       }
       setSelectedStudent(false);
-    })
+    })}
   }, [selectedStudentId])
 
   const history = useHistory();
