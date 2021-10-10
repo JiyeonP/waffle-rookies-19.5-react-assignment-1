@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import API from "../API";
 import { useAuthContext } from "../Context/AuthContext";
-import {BounceLoader} from "react-spinners";
+import {PuffLoader} from "react-spinners";
 import {css} from "@emotion/react";
 
 const DetailPage = () => {
@@ -241,7 +241,7 @@ const DetailPage = () => {
         />
         {targetStudent.locked ? <LockBox /> : null}
       </div>
-      <BounceLoader color="#88dd88" loading={loading} css={mainLoaderCss} size={150} speedMultiplier={2}/>
+      <PuffLoader color="#88dd88" loading={loading} css={mainLoaderCss} size={150} speedMultiplier={2}/>
     </div>
   );
 };

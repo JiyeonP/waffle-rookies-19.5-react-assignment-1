@@ -3,12 +3,16 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import MainPage from "./MainPage/MainPage";
 import DetailPage from "./DetailPage/DetailPage";
 import LoginPage from "./LoginPage/LoginPage";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { useAuthContext } from "./Context/AuthContext";
 import API from "./API";
+import {PuffLoader} from "react-spinners";
+import {css} from "@emotion/react";
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const { login, setLogin } = useAuthContext();
+  const mainLoaderCss = css`position: absolute; top: 250px; left: calc(50% - 75px)`;
 
   useEffect(() => {
     if (localStorage.getItem("isLogin") === "yes") {
@@ -24,9 +28,7 @@ function App() {
 
   if (login === undefined){
     return (
-        <div>
-
-        </div>
+          <PuffLoader color="#88dd88" loading={loading} css={mainLoaderCss} size={150} speedMultiplier={2}/>
     )
   } else {
     return (
