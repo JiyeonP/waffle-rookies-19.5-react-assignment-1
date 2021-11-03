@@ -1,10 +1,7 @@
 import "./DashBoard.css";
-import { useEffect, useState } from "react";
-import API from "../../API";
 import { Pie, PieChart, Cell, Legend, LabelList } from "recharts";
 
-const DashBoard = ({studentList}) => {
-
+const DashBoard = ({ studentList }) => {
   const gradeData = [
     {
       grade: "1st",
@@ -21,10 +18,6 @@ const DashBoard = ({studentList}) => {
   ];
 
   const colors = ["#ef7c6a", "#333333", "#eeaa77"];
-
-  let renderLabel = function (entry) {
-    return entry.count;
-  };
 
   return (
     <div className="dashBoard">

@@ -1,10 +1,8 @@
 import "./LoginPage.css";
-import {useAuthContext} from "../Context/AuthContext";
-import axios from "axios";
+import { useAuthContext } from "../Context/AuthContext";
 import API from "../API";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const [userId, setUserId] = useState("");
@@ -16,18 +14,20 @@ const LoginPage = () => {
       username: userId,
       password: userPassword,
     })
-        .then((res) => {
-          localStorage.setItem("isLogin", "yes");
-          localStorage.setItem("token", res.data.access_token);
-          setLogin(true);
-        })
-        .catch((error) => {
-          if (error.response.status === 401){
-            toast.error("로그인 정보가 틀렸습니다!");
-          } else {
-            toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
-          }
-        });
+      .then((res) => {
+        localStorage.setItem("token", res.data.access_token);
+        API.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.getItem("token")}`;
+        setLogin(true);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("로그인 정보가 틀렸습니다.");
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+      });
   };
 
   const handleId = (e) => {

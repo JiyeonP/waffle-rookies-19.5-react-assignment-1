@@ -8,22 +8,23 @@ import DeleteConfirm from "./DeleteConfirm/DeleteConfirm";
 import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import API from "../API";
-import { useAuthContext } from "../Context/AuthContext";
-import {PuffLoader} from "react-spinners";
-import {css} from "@emotion/react";
+import { PuffLoader } from "react-spinners";
+import { css } from "@emotion/react";
 
 const DetailPage = () => {
   const [loading, setLoading] = useState(true);
-  const { setLogin } = useAuthContext();
   const [targetStudent, setTargetStudent] = useState({});
   const [changedStudent, setChangedStudent] = useState(targetStudent);
   const [deleteClicked, setDeleteClicked] = useState(false);
   const params = useParams();
   const history = useHistory();
 
-  const mainLoaderCss = css`position: absolute; top: 250px; left: calc(50% - 75px)`;
+  const mainLoaderCss = css`
+    position: absolute;
+    top: 250px;
+    left: calc(50% - 75px);
+  `;
 
   useEffect(() => {
     setLoading(true);
@@ -39,12 +40,7 @@ const DetailPage = () => {
         setLoading(false);
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          toast.error("토큰이 만료되었습니다.");
-          localStorage.setItem("isLogin", "no");
-          localStorage.setItem("token", "none");
-          setLogin(false);
-        } else if (error.response.status === 400) {
+        if (error.response.status === 400) {
           toast.error(error.response.data.message);
           history.push("/students");
         } else {
@@ -106,27 +102,23 @@ const DetailPage = () => {
     setChangedStudent(newChangedStudent);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setLoading(true);
-    API.patch(`student/${params.id}`, changedStudent)
-      .then((res) => {
-        toast.success("저장되었습니다.");
-        setTargetStudent({ ...targetStudent, ...changedStudent });
-        setLoading(false);
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          toast.error("토큰이 만료되었습니다.");
-          localStorage.setItem("isLogin", "no");
-          localStorage.setItem("token", "none");
-          setLogin(false);
-        } else if (error.response.status === 400) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
-        }
-        setLoading(false);
-      });
+    try {
+      await API.patch(`student/${params.id}`, changedStudent);
+      const response2 = await API.get(`student/${params.id}`);
+
+      toast.success("저장되었습니다.");
+      setTargetStudent(response2.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error.response.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+      }
+    }
   };
 
   const handleConfirm = (v) => {
@@ -151,12 +143,7 @@ const DetailPage = () => {
           setLoading(false);
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            toast.error("토큰이 만료되었습니다.");
-            localStorage.setItem("isLogin", "no");
-            localStorage.setItem("token", "none");
-            setLogin(false);
-          } else if (error.response.status === 400) {
+          if (error.response.status === 400) {
             toast.error(error.response.data.message);
           } else {
             toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -173,12 +160,7 @@ const DetailPage = () => {
           setLoading(false);
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            toast.error("토큰이 만료되었습니다.");
-            localStorage.setItem("isLogin", "no");
-            localStorage.setItem("token", "none");
-            setLogin(false);
-          } else if (error.response.status === 400) {
+          if (error.response.status === 400) {
             toast.error(error.response.data.message);
           } else {
             toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -200,12 +182,7 @@ const DetailPage = () => {
         setLoading(false);
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          toast.error("토큰이 만료되었습니다.");
-          localStorage.setItem("isLogin", "no");
-          localStorage.setItem("token", "none");
-          setLogin(false);
-        } else if (error.response.status === 400) {
+        if (error.response.status === 400) {
           toast.error(error.response.data.message);
         } else {
           toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -241,7 +218,13 @@ const DetailPage = () => {
         />
         {targetStudent.locked ? <LockBox /> : null}
       </div>
-      <PuffLoader color="#88dd88" loading={loading} css={mainLoaderCss} size={150} speedMultiplier={2}/>
+      <PuffLoader
+        color="#88dd88"
+        loading={loading}
+        css={mainLoaderCss}
+        size={150}
+        speedMultiplier={2}
+      />
     </div>
   );
 };

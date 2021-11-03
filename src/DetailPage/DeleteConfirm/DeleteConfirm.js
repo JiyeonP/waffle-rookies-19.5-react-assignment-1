@@ -1,7 +1,6 @@
 import "./DeleteConfirm.css";
 
 const DeleteConfirm = ({ deleteClicked, onConfirm, onCancel }) => {
-
   return (
     <div className={`wrapper ${deleteClicked ? "show" : ""}`}>
       <div className="backBox" onClick={onCancel} />

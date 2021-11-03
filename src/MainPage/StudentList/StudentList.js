@@ -1,12 +1,12 @@
 import "./StudentList.css";
 import Student from "./Student";
-import API from "../../API";
-import {useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import {useAuthContext} from "../../Context/AuthContext";
 
-const StudentList = ({ studentList, selectedStudentId, setSelectedStudentId, searchKey }) => {
-
+const StudentList = ({
+  studentList,
+  selectedStudentId,
+  setSelectedStudentId,
+  searchKey,
+}) => {
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 
   const selectChange = (changedStudent) => {

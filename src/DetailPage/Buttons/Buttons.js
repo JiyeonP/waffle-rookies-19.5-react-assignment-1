@@ -1,7 +1,13 @@
 import "./Buttons.css";
 import { Link, useHistory } from "react-router-dom";
 
-const Buttons = ({ targetStudent, handleCancel, handleSave, handleConfirm, handleLock }) => {
+const Buttons = ({
+  targetStudent,
+  handleCancel,
+  handleSave,
+  handleConfirm,
+  handleLock,
+}) => {
   const history = useHistory();
 
   const goStudentList = () => history.push("/students");
@@ -39,8 +45,9 @@ const Buttons = ({ targetStudent, handleCancel, handleSave, handleConfirm, handl
         </button>
       )}
       <button
-          className={`defaultButton ${!targetStudent.locked ? "cancel" : ""}`}
-        onClick={!targetStudent.locked ? handleCancel : null}
+        className={`defaultButton ${!targetStudent.locked ? "cancel" : ""}`}
+        disabled={targetStudent.locked}
+        onClick={() => handleConfirm(true)}
       >
         <img
           className="buttonImg"
@@ -51,7 +58,8 @@ const Buttons = ({ targetStudent, handleCancel, handleSave, handleConfirm, handl
       </button>
       <button
         className={`defaultButton ${!targetStudent.locked ? "delete" : ""}`}
-        onClick={!targetStudent.locked ? () => handleConfirm(true) : null}
+        disabled={targetStudent.locked}
+        onClick={handleConfirm}
       >
         <img
           className="buttonImg"
@@ -62,7 +70,8 @@ const Buttons = ({ targetStudent, handleCancel, handleSave, handleConfirm, handl
       </button>
       <button
         className={`defaultButton ${!targetStudent.locked ? "save" : ""}`}
-        onClick={!targetStudent.locked ? handleSave : null}
+        disabled={targetStudent.locked}
+        onClick={handleSave}
       >
         <img
           className="buttonImg"

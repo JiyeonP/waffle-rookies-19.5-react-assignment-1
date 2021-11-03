@@ -28,6 +28,10 @@
   background-color: #adadad;
 }
 
+.defaultButton:disabled {
+  color: black;
+}
+
 .defaultButton.cancel {
   background-color: #bde1ef;
 }
