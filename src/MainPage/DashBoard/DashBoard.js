@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 import API from "../../API";
 import { Pie, PieChart, Cell, Legend, LabelList } from "recharts";
 
-const DashBoard = () => {
-  const [studentList, setStudentList] = useState([]);
-
-  API.get("/student").then((res) => {
-    setStudentList(res.data);
-  });
+const DashBoard = ({studentList}) => {
 
   const gradeData = [
     {
