@@ -1,7 +1,7 @@
 import "./Buttons.css";
 import { Link, useHistory } from "react-router-dom";
 
-const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
+const Buttons = ({ targetStudent, handleCancel, handleSave, handleConfirm, handleLock }) => {
   const history = useHistory();
 
   const goStudentList = () => history.push("/students");
@@ -19,7 +19,7 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
           학생 목록 페이지로{" "}
         </Link>
       </button>
-      {changedStudent.locked ? (
+      {targetStudent.locked ? (
         <button className="defaultButton lock" onClick={handleLock}>
           <img
             className="buttonImg"
@@ -39,8 +39,19 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
         </button>
       )}
       <button
-        className={`defaultButton ${!changedStudent.locked ? "delete" : ""}`}
-        onClick={!changedStudent.locked ? () => handleConfirm(true) : null}
+          className={`defaultButton ${!targetStudent.locked ? "cancel" : ""}`}
+        onClick={!targetStudent.locked ? handleCancel : null}
+      >
+        <img
+          className="buttonImg"
+          src="https://cdn-icons-png.flaticon.com/512/60/60690.png"
+          alt="취소"
+        />
+        <p className="buttonText">취소</p>
+      </button>
+      <button
+        className={`defaultButton ${!targetStudent.locked ? "delete" : ""}`}
+        onClick={!targetStudent.locked ? () => handleConfirm(true) : null}
       >
         <img
           className="buttonImg"
@@ -50,8 +61,8 @@ const Buttons = ({ changedStudent, handleSave, handleConfirm, handleLock }) => {
         <p className="buttonText">삭제</p>
       </button>
       <button
-        className={`defaultButton ${!changedStudent.locked ? "save" : ""}`}
-        onClick={!changedStudent.locked ? handleSave : null}
+        className={`defaultButton ${!targetStudent.locked ? "save" : ""}`}
+        onClick={!targetStudent.locked ? handleSave : null}
       >
         <img
           className="buttonImg"

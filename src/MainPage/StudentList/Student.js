@@ -6,7 +6,7 @@ const Student = ({ student, selected, selectChange }) => {
   };
 
   return (
-    <li className={`student ${selected ? "selected" : ""}`}>
+    <li key={student.id} className={`student ${selected ? "selected" : ""}`}>
       <p className="listComp">{student.name}</p>
       <p className="listComp">{student.grade}</p>
       <button

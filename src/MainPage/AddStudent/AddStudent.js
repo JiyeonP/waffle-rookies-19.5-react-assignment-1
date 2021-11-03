@@ -1,49 +1,38 @@
 import "./AddStudent.css";
 import { useState } from "react";
-import { useStudentContext } from "../../Context/StudentContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import API from "../../API";
+import "react-toastify/dist/ReactToastify.css";
+import {useAuthContext} from "../../Context/AuthContext";
 
-const AddStudent = ({ addStudent, handleAddStudent }) => {
-  const { studentList, setStudentList, setSelectedStudent } =
-    useStudentContext();
+const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
+  const {setLogin} = useAuthContext();
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [profile_img, setProfileImg] = useState("");
 
   const handleStudentAdd = () => {
-    if (!name || !grade) {
-      return window.alert("이름과 학년을 모두 입력하세요.");
-    }
-
-    if (![2, 3].includes(name.length)) {
-      return window.alert("이름을 다시 확인해주세요. (두 글자/세 글자 입력)");
-    }
-
-    if (![1, 2, 3].includes(Number(grade))) {
-      return window.alert("학년을 다시 확인해주세요. (1, 2, 3 중 입력)");
-    }
-
-    if (
-      studentList.find(
-        (item) => item.name === name && item.grade === Number(grade)
-      )
-    ) {
-      return window.alert("해당 학년에 동명이인이 존재합니다. (추가 불가)");
-    }
-
-    const newStudent = {
-      id: Math.random(),
+    API.post("/student", {
       name: name,
       grade: Number(grade),
-      phone: "",
-      email: "@waffle.hs.kr",
-      major: "frontend",
-      profileImg: "",
-      locked: false,
-    };
-
-    setStudentList([...studentList, newStudent]);
-    setSelectedStudent(newStudent);
-    handleClose();
+    })
+      .then((res) => {
+        setSelectedStudentId(res.data.id);
+        handleClose();
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        } else if (error.response.status === 400){
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+      });
   };
 
   const handleClose = () => {
@@ -64,6 +53,10 @@ const AddStudent = ({ addStudent, handleAddStudent }) => {
             placeholder="이름을 입력하세요. (한글)"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyPress={ (e) => {
+              if (e.key === 'Enter') {
+                handleStudentAdd();
+              }}}
           />
         </div>
         <div className="addLine">
@@ -72,10 +65,12 @@ const AddStudent = ({ addStudent, handleAddStudent }) => {
             className="addInput"
             placeholder="학년을 입력하세요. (숫자)"
             type="number"
-            min="1"
-            max="3"
             value={grade}
             onChange={(e) => setGrade(e.target.value)}
+            onKeyPress={ (e) => {
+              if (e.key === 'Enter') {
+                handleStudentAdd();
+              }}}
           />
         </div>
         <button className="close" onClick={handleClose}>

@@ -15,12 +15,10 @@ const Information = ({
         <div className="info">
           <div className="infoLine">
             <p className="infoIndex">전화번호</p>
-            <NumberFormat
+            <input
               className="infoInput"
               value={changedStudent.phone}
-              format="###-####-####"
-              mask="_"
-              onValueChange={(values) => handlePhoneChange(values)}
+              onChange={(e) => handlePhoneChange(e)}
             />
           </div>
           <div className="infoLine">
@@ -28,7 +26,7 @@ const Information = ({
             <div className="infoInput">
               <input
                 className="emailInput"
-                value={changedStudent.email}
+                value={changedStudent.email? changedStudent.email.split("@")[0] : ""}
                 onChange={(e) => handleEmailChange(e)}
               />
               <div className="waffleEmail">@waffle.hs.kr</div>
@@ -41,6 +39,7 @@ const Information = ({
               value={changedStudent.major}
               onChange={(e) => handleMajorChange(e)}
             >
+              <option>not assigned</option>
               <option value="frontend">frontend</option>
               <option value="backend">backend</option>
               <option value="android">android</option>
@@ -52,7 +51,7 @@ const Information = ({
             <p className="infoIndex">프로필</p>
             <input
               className="infoInput"
-              value={changedStudent.profileImg}
+              value={changedStudent.profile_img}
               onChange={(e) => handleProfileImgChange(e)}
             />
           </div>

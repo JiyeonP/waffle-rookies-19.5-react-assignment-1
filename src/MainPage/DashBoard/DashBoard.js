@@ -1,53 +1,67 @@
 import "./DashBoard.css";
-import { useStudentContext } from "../../Context/StudentContext";
-import { PieChart, Pie, LabelList } from "recharts";
+import { useEffect, useState } from "react";
+import API from "../../API";
+import { Pie, PieChart, Cell, Legend, LabelList } from "recharts";
 
 const DashBoard = () => {
-  const { studentList } = useStudentContext();
+  const [studentList, setStudentList] = useState([]);
+
+  API.get("/student").then((res) => {
+    setStudentList(res.data);
+  });
 
   const gradeData = [
     {
-      grade: "1학년",
+      grade: "1st",
       count: studentList.filter((item) => item.grade === 1).length,
     },
     {
-      grade: "2학년",
+      grade: "2nd",
       count: studentList.filter((item) => item.grade === 2).length,
     },
     {
-      grade: "3학년",
+      grade: "3rd",
       count: studentList.filter((item) => item.grade === 3).length,
     },
   ];
 
+  const colors = ["#ef7c6a", "#333333", "#eeaa77"];
+
+  let renderLabel = function (entry) {
+    return entry.count;
+  };
+
   return (
     <div className="dashBoard">
-      <PieChart width={720} height={140}>
+      <div className="dashBoardSlot">
+        <br />
+        안녕하세요,
+        <br />
+        와플 고등학교 홈페이지 입니다.
+      </div>
+      <PieChart width={200} height={140}>
         <Pie
-          stroke="#ececec"
-          strokeWidth="2"
+          innerRadius={30}
+          outerRadius={50}
+          fill="#8884d8"
+          paddingAngle={0}
           data={gradeData}
           cx="50%"
-          cy="50%"
+          cy="45%"
           dataKey="count"
           nameKey="grade"
-          outerRadius={50}
-          fill="#ff8c5a"
         >
-          <LabelList
-            stroke="#dd5555"
-            strokeWidth="0.5"
-            dataKey="grade"
-            position="outside"
-            style={{ fontSize: "90%", fill: "#ff8888", fontWeight: "bold" }}
-          />
+          {gradeData.map((entry, index) => (
+            <Cell fill={colors[index % colors.length]} />
+          ))}
           <LabelList
             stroke="none"
             dataKey="count"
             position="inside"
-            style={{ fontSize: "120%", fill: "#ffffff", fontWeight: "bold" }}
+            style={{ fontSize: "80%", fill: "#ffffff", fontWeight: "bold" }}
           />
         </Pie>
+        <Legend />
       </PieChart>
     </div>
   );

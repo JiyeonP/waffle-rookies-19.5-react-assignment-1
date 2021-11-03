@@ -1,22 +1,41 @@
 import "./StudentList.css";
 import Student from "./Student";
-import { useStudentContext } from "../../Context/StudentContext";
+import API from "../../API";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import {useAuthContext} from "../../Context/AuthContext";
 
-const StudentList = ({ searchKey }) => {
-  const { studentList, selectedStudent, setSelectedStudent } =
-    useStudentContext();
+const StudentList = ({ setLoading, selectedStudentId, setSelectedStudentId, searchKey }) => {
+  const {setLogin} = useAuthContext();
+  const [studentList, setStudentList] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    API.get("/student").then((res) => {
+      setStudentList(res.data);
+      setLoading(false);
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        toast.error("토큰이 만료되었습니다.");
+        localStorage.setItem("isLogin", "no");
+        localStorage.setItem("token", "none");
+        setLogin(false);
+      } else if (error.response.status === 400){
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+      }
+      setLoading(false);
+    });
+  }, [selectedStudentId]);
+
   const showList = studentList.filter((item) => item.name.includes(searchKey));
 
   const selectChange = (changedStudent) => {
-    if (selectedStudent !== changedStudent) {
-      setSelectedStudent(changedStudent);
+    if (selectedStudentId !== changedStudent.id) {
+      setSelectedStudentId(changedStudent.id);
     } else {
-      setSelectedStudent({
-        id: false,
-        name: false,
-        grade: false,
-        profileImg: false,
-      });
+      setSelectedStudentId(false);
     }
   };
 
@@ -34,7 +53,7 @@ const StudentList = ({ searchKey }) => {
             <Student
               key={item.id}
               student={item}
-              selected={selectedStudent.id === item.id}
+              selected={selectedStudentId === item.id}
               selectChange={selectChange}
             />
           ))}

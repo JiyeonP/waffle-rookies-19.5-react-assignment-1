@@ -3,66 +3,130 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
 import Buttons from "./Buttons/Buttons";
-import { useStudentContext } from "../Context/StudentContext";
 import Information from "./Information/Information";
 import DeleteConfirm from "./DeleteConfirm/DeleteConfirm";
 import Comments from "./Comments/Comments";
 import LockBox from "./Information/LockBox";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import API from "../API";
+import { useAuthContext } from "../Context/AuthContext";
+import {BounceLoader} from "react-spinners";
+import {css} from "@emotion/react";
 
 const DetailPage = () => {
-  const { studentList, setStudentList } = useStudentContext();
+  const [loading, setLoading] = useState(true);
+  const { setLogin } = useAuthContext();
+  const [targetStudent, setTargetStudent] = useState({});
+  const [changedStudent, setChangedStudent] = useState(targetStudent);
+  const [deleteClicked, setDeleteClicked] = useState(false);
   const params = useParams();
   const history = useHistory();
-  const targetStudent = studentList.find(
-    (item) => item.id.toString() === params.id
-  );
-  const [changedStudent, setChangedStudent] = useState({
-    ...targetStudent,
-    email: targetStudent.email.split("@")[0],
-  });
-  const [deleteClicked, setDeleteClicked] = useState(false);
+
+  const mainLoaderCss = css`position: absolute; top: 250px; left: calc(50% - 75px)`;
+
+  useEffect(() => {
+    setLoading(true);
+    API.get(`student/${params.id}`)
+      .then((res) => {
+        setTargetStudent(res.data);
+        setChangedStudent({
+          profile_img: res.data.profile_img,
+          email: res.data.email,
+          phone: res.data.phone,
+          major: res.data.major,
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        } else if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+          history.push("/students");
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+        setLoading(false);
+      });
+  }, []);
 
   const handleEmailChange = (e) => {
     if (e.target.value.includes("@")) {
-      window.alert("@는 사용할 수 없습니다.");
+      toast.error("@는 입력할 수 없습니다.");
       return;
     }
-    const newChangedStudent = { ...changedStudent, email: e.target.value };
+    if (e.target.value.includes(" ")) {
+      toast.error("공백은 입력할 수 없습니다.");
+      return;
+    }
+    const newChangedStudent = {
+      ...changedStudent,
+      email: e.target.value + "@waffle.hs.kr",
+    };
     setChangedStudent(newChangedStudent);
   };
 
-  const handlePhoneChange = (values) => {
-    const { formattedValue, value } = values;
+  const handlePhoneChange = (e) => {
+    let phoneNumber = e.target.value;
+    if (!"0123456789".includes(phoneNumber.slice(-1))) {
+      phoneNumber = phoneNumber.slice(0, -1);
+    }
+    if (phoneNumber.length > 13) {
+      phoneNumber = phoneNumber.slice(0, 13);
+    }
+    if (phoneNumber.length === 4 || phoneNumber.length === 9) {
+      phoneNumber = phoneNumber.slice(0, -1) + "-" + phoneNumber.slice(-1);
+    }
     const newChangedStudent = {
       ...changedStudent,
-      phone: value,
+      phone: phoneNumber,
     };
     setChangedStudent(newChangedStudent);
   };
 
   const handleMajorChange = (e) => {
-    const newChangedStudent = { ...changedStudent, major: e.target.value };
+    let newChangedStudent = {};
+    if (e.target.value === "not assigned") {
+      newChangedStudent = { ...changedStudent, major: null };
+    } else {
+      newChangedStudent = { ...changedStudent, major: e.target.value };
+    }
     setChangedStudent(newChangedStudent);
   };
 
   const handleProfileImgChange = (e) => {
-    const newChangedStudent = { ...changedStudent, profileImg: e.target.value };
+    const newChangedStudent = {
+      ...changedStudent,
+      profile_img: e.target.value,
+    };
     setChangedStudent(newChangedStudent);
   };
 
   const handleSave = () => {
-    const newStudentList = studentList.map((student) => {
-      if (student.id === changedStudent.id) {
-        return {
-          ...changedStudent,
-          email: changedStudent.email + "@waffle.hs.kr",
-        };
-      } else {
-        return student;
-      }
-    });
-    setStudentList(newStudentList);
-    history.push("/students");
+    setLoading(true);
+    API.patch(`student/${params.id}`, changedStudent)
+      .then((res) => {
+        toast.success("저장되었습니다.");
+        setTargetStudent({ ...targetStudent, ...changedStudent });
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        } else if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+        setLoading(false);
+      });
   };
 
   const handleConfirm = (v) => {
@@ -70,22 +134,84 @@ const DetailPage = () => {
   };
 
   const handleLock = () => {
-    setChangedStudent({ ...changedStudent, locked: !changedStudent.locked });
-    const newStudentList = studentList.map((student) => {
-      if (student.id === changedStudent.id) {
-        return { ...student, locked: !student.lock };
-      } else {
-        return student;
-      }
-    });
-    setStudentList(newStudentList);
+    if (
+      JSON.stringify(targetStudent) !==
+      JSON.stringify({ ...targetStudent, ...changedStudent })
+    ) {
+      toast.error("변경 내용 저장 혹은 취소 후 잠금 버튼을 눌러주세요.");
+      return;
+    }
+    if (!targetStudent.locked) {
+      setLoading(true);
+      API.post(`student/${params.id}/lock`)
+        .then((res) => {
+          toast.success(
+            "잠금 설정했습니다. 이제 학생 정보를 수정하실 수 없습니다."
+          );
+          setLoading(false);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            toast.error("토큰이 만료되었습니다.");
+            localStorage.setItem("isLogin", "no");
+            localStorage.setItem("token", "none");
+            setLogin(false);
+          } else if (error.response.status === 400) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+          }
+          setLoading(false);
+        });
+    } else {
+      setLoading(true);
+      API.post(`student/${params.id}/unlock`)
+        .then((res) => {
+          toast.success(
+            "잠금 해제했습니다. 이제 학생 정보를 수정하실 수 있습니다."
+          );
+          setLoading(false);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            toast.error("토큰이 만료되었습니다.");
+            localStorage.setItem("isLogin", "no");
+            localStorage.setItem("token", "none");
+            setLogin(false);
+          } else if (error.response.status === 400) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+          }
+          setLoading(false);
+        });
+    }
+    setTargetStudent({ ...targetStudent, locked: !targetStudent.locked });
+  };
+
+  const handleCancel = () => {
+    setChangedStudent(targetStudent);
   };
 
   const handleDelete = () => {
-    const newStudentList = studentList.filter(
-      (item) => item.id !== changedStudent.id
-    );
-    setStudentList(newStudentList);
+    setLoading(true);
+    API.delete(`student/${params.id}`)
+      .then((res) => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error("토큰이 만료되었습니다.");
+          localStorage.setItem("isLogin", "no");
+          localStorage.setItem("token", "none");
+          setLogin(false);
+        } else if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+        setLoading(false);
+      });
     history.push("/students");
   };
 
@@ -93,13 +219,13 @@ const DetailPage = () => {
     <div className="detailWrapper">
       <div className="detailPage">
         <Buttons
-          changedStudent={changedStudent}
-          setChangedStudent={setChangedStudent}
+          targetStudent={targetStudent}
+          handleCancel={handleCancel}
           handleSave={handleSave}
           handleConfirm={handleConfirm}
           handleLock={handleLock}
         />
-        <Profile />
+        <Profile targetStudent={targetStudent} />
         <Information
           changedStudent={changedStudent}
           handleEmailChange={handleEmailChange}
@@ -107,14 +233,15 @@ const DetailPage = () => {
           handlePhoneChange={handlePhoneChange}
           handleProfileImgChange={handleProfileImgChange}
         />
-        <Comments />
+        <Comments targetStudent={targetStudent} />
         <DeleteConfirm
           deleteClicked={deleteClicked}
           onConfirm={handleDelete}
           onCancel={() => handleConfirm(false)}
         />
-        {changedStudent.locked ? <LockBox /> : null}
+        {targetStudent.locked ? <LockBox /> : null}
       </div>
+      <BounceLoader color="#88dd88" loading={loading} css={mainLoaderCss} size={150} speedMultiplier={2}/>
     </div>
   );
 };
