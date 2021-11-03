@@ -1,6 +1,6 @@
 import "./Profile.css";
 
-const Profile = ({targetStudent}) => {
+const Profile = ({ targetStudent }) => {
   return (
     <div>
       <div className="profile2ImgWrapper">

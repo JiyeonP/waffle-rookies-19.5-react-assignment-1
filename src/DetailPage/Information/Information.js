@@ -1,5 +1,4 @@
 import "./Information.css";
-import NumberFormat from "react-number-format";
 
 const Information = ({
   changedStudent,
@@ -26,7 +25,9 @@ const Information = ({
             <div className="infoInput">
               <input
                 className="emailInput"
-                value={changedStudent.email? changedStudent.email.split("@")[0] : ""}
+                value={
+                  changedStudent.email ? changedStudent.email.split("@")[0] : ""
+                }
                 onChange={(e) => handleEmailChange(e)}
               />
               <div className="waffleEmail">@waffle.hs.kr</div>

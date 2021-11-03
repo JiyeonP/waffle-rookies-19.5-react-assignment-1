@@ -6,12 +6,18 @@ import reportWebVitals from "./reportWebVitals";
 import { ContextProvider } from "./Context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <ContextProvider>
     <CookiesProvider>
       <App />
-      <ToastContainer position= "bottom-right" autoClose= {4000} closeOnClick= {true} pauseOnHover={false}/>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        closeOnClick={true}
+        pauseOnHover={false}
+      />
     </CookiesProvider>
   </ContextProvider>,
   document.getElementById("root")

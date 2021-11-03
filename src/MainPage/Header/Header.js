@@ -1,12 +1,10 @@
 import "./Header.css";
 import { useAuthContext } from "../../Context/AuthContext";
-import API from "../../API";
 
 const Header = () => {
   const { setLogin } = useAuthContext();
 
   const Logout = () => {
-    localStorage.setItem("isLogin", "no");
     localStorage.setItem("token", "none");
     setLogin(false);
   };

@@ -1,13 +1,9 @@
 import "./AddStudent.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import API from "../../API";
-import "react-toastify/dist/ReactToastify.css";
-import {useAuthContext} from "../../Context/AuthContext";
 
 const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
-  const {setLogin} = useAuthContext();
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
   const [profile_img, setProfileImg] = useState("");
@@ -22,12 +18,7 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
         handleClose();
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          toast.error("토큰이 만료되었습니다.");
-          localStorage.setItem("isLogin", "no");
-          localStorage.setItem("token", "none");
-          setLogin(false);
-        } else if (error.response.status === 400){
+        if (error.response.status === 400) {
           toast.error(error.response.data.message);
         } else {
           toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -53,10 +44,11 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
             placeholder="이름을 입력하세요. (한글)"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onKeyPress={ (e) => {
-              if (e.key === 'Enter') {
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
                 handleStudentAdd();
-              }}}
+              }
+            }}
           />
         </div>
         <div className="addLine">
@@ -67,10 +59,11 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
             type="number"
             value={grade}
             onChange={(e) => setGrade(e.target.value)}
-            onKeyPress={ (e) => {
-              if (e.key === 'Enter') {
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
                 handleStudentAdd();
-              }}}
+              }
+            }}
           />
         </div>
         <button className="close" onClick={handleClose}>

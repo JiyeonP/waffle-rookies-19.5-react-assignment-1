@@ -38,26 +38,26 @@
 }
 
 .popUpCheckMessage {
-    font-size: 15px;
-    margin-left: 30px;
+  font-size: 15px;
+  margin-left: 30px;
 }
 
-.popUpCheck{
-    position: relative;
-    top: 7px;
+.popUpCheck {
+  position: relative;
+  top: 7px;
 }
 
 .popUpClose {
-    position: relative;
-    height: 25px;
-    top: 3px;
-    margin-left: 15px;
+  position: relative;
+  height: 25px;
+  top: 3px;
+  margin-left: 15px;
 
-    border-radius: 3px;
-    border-width: 0px;
-    background-color: white;
+  border-radius: 3px;
+  border-width: 0px;
+  background-color: white;
 }
 
 .popUpClose:hover {
-    background-color: #e5e5e5;
+  background-color: #e5e5e5;
 }
