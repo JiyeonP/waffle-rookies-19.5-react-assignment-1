@@ -24,8 +24,11 @@
   border-radius: 5px;
 }
 
-.defaultButton.lock:hover {
-  background-color: #adadad;
+.defaultButton.lock{
+  background-color: #f5ed50;
+  &:hover {
+    background-color: #e0cb2e;
+  }
 }
 
 .defaultButton:disabled {
@@ -34,26 +37,23 @@
 
 .defaultButton.cancel {
   background-color: #bde1ef;
-}
-
-.defaultButton.cancel:hover {
-  background-color: #9cc0ce;
+  &:hover {
+    background-color: #9cc0ce;
+  }
 }
 
 .defaultButton.save {
   background-color: #bbf5bb;
-}
-
-.defaultButton.save:hover {
-  background-color: #88dd88;
+  &:hover {
+    background-color: #88dd88;
+  }
 }
 
 .defaultButton.delete {
   background-color: #ffbbca;
-}
-
-.defaultButton.delete:hover {
-  background-color: #dd8897;
+  &:hover {
+    background-color: #dd8897;
+  }
 }
 
 .goBackImg {

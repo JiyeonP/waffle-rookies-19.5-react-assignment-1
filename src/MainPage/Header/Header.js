@@ -1,5 +1,6 @@
 import "./Header.css";
 import { useAuthContext } from "../../Context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
   const { setLogin } = useAuthContext();

@@ -3,6 +3,7 @@ import { useAuthContext } from "../Context/AuthContext";
 import API from "../API";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import {useCookies} from "react-cookie";
 
 const LoginPage = () => {
   const [userId, setUserId] = useState("");
@@ -48,6 +49,11 @@ const LoginPage = () => {
             className="loginInput"
             value={userId}
             onChange={(e) => handleId(e)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleLogin();
+              }
+            }}
           />
           <p className="loginText">Password</p>
           <p className="forgotPassword">Forgot password?</p>
@@ -56,6 +62,11 @@ const LoginPage = () => {
             value={userPassword}
             onChange={(e) => {
               handlePassword(e);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleLogin();
+              }
             }}
           />
           <button className="loginButton" onClick={handleLogin}>

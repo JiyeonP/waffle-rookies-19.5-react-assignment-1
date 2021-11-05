@@ -1,4 +1,4 @@
-import "./Buttons.css";
+import "./Buttons.scss";
 import { Link, useHistory } from "react-router-dom";
 
 const Buttons = ({
@@ -35,7 +35,7 @@ const Buttons = ({
           <p className="buttonText">해제</p>
         </button>
       ) : (
-        <button className={`defaultButton ${"lock"}`} onClick={handleLock}>
+        <button className='defaultButton' onClick={handleLock}>
           <img
             className="buttonImg"
             src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png"
@@ -47,7 +47,7 @@ const Buttons = ({
       <button
         className={`defaultButton ${!targetStudent.locked ? "cancel" : ""}`}
         disabled={targetStudent.locked}
-        onClick={() => handleConfirm(true)}
+        onClick={handleCancel}
       >
         <img
           className="buttonImg"

@@ -72,10 +72,10 @@
   background-color: #cabbff;
   border-width: 0px;
   border-radius: 5px;
-}
 
-.cancelButton:hover {
-  background-color: #9788dd;
+  &:hover {
+    background-color: #9788dd;
+  }
 }
 
 .deleteButton {
@@ -90,8 +90,8 @@
   background-color: #ffbbca;
   border-width: 0px;
   border-radius: 5px;
-}
 
-.deleteButton:hover {
-  background-color: #dd8897;
+  &:hover {
+    background-color: #dd8897;
+  }
 }
