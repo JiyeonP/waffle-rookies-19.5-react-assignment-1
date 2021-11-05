@@ -1,4 +1,3 @@
-import "./ViewProfile.css";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,11 +8,11 @@ const ViewProfile = ({ selectedStudentId, studentList }) => {
   const goDetail = () => history.push(`/student/${selectedStudent.id}`);
 
   const Profile1Wrapper = styled.div`
-    position: relative;
-    top: -1241px;
-    left: 390px;
-    width: calc(50% - 30px);
-    height: 400px;
+    position: absolute;
+    top: 272px;
+    left: calc(50% + 13px);
+    width: 346px;
+    height: 404px;
 
     border: 1px solid #c7c7c7;
     box-sizing: border-box;

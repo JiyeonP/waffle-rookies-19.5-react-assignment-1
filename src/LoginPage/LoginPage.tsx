@@ -1,9 +1,12 @@
 import "./LoginPage.css";
 import { useAuthContext } from "../Context/AuthContext";
 import API from "../API";
-import { useState } from "react";
+import {ChangeEvent, useState} from "react";
 import { toast } from "react-toastify";
-import {useCookies} from "react-cookie";
+
+type authResType = {
+  access_token: string;
+}
 
 const LoginPage = () => {
   const [userId, setUserId] = useState("");
@@ -16,11 +19,15 @@ const LoginPage = () => {
       password: userPassword,
     })
       .then((res) => {
+        // @ts-ignore
         localStorage.setItem("token", res.data.access_token);
-        API.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        setLogin(true);
+        if (API.defaults.headers !== undefined){
+          API.defaults.headers.common[
+              // @ts-ignore
+              "Authorization"
+              ] = `Bearer ${localStorage.getItem("token")}`;
+          setLogin(true);
+        }
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -31,11 +38,11 @@ const LoginPage = () => {
       });
   };
 
-  const handleId = (e) => {
+  const handleId = (e: ChangeEvent<HTMLInputElement>) => {
     setUserId(e.target.value);
   };
 
-  const handlePassword = (e) => {
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setUserPassword(e.target.value);
   };
 
