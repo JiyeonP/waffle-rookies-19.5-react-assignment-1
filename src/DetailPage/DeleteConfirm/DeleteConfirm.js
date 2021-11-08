@@ -1,4 +1,4 @@
-import "./DeleteConfirm.css";
+import "./DeleteConfirm.scss";
 
 const DeleteConfirm = ({ deleteClicked, onConfirm, onCancel }) => {
   return (

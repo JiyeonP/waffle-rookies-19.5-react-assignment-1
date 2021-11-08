@@ -1,4 +1,4 @@
-import "./PopUp.css";
+import "./PopUp.scss";
 import React, { useState } from "react";
 
 const PopUp = ({ closePopUp }) => {

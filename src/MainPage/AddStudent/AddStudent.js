@@ -2,11 +2,19 @@ import "./AddStudent.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import API from "../../API";
+import { useAuthContext } from "../../Context/AuthContext";
 
-const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
+const AddStudent = ({
+  setSelectedStudentId,
+  addStudent,
+  handleAddStudent,
+  studentList,
+  setStudentList,
+}) => {
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
   const [profile_img, setProfileImg] = useState("");
+  const { tokenExpire } = useAuthContext();
 
   const handleStudentAdd = () => {
     API.post("/student", {
@@ -14,11 +22,16 @@ const AddStudent = ({ setSelectedStudentId, addStudent, handleAddStudent }) => {
       grade: Number(grade),
     })
       .then((res) => {
+        setStudentList(
+            studentList.concat({ id: res.data.id, name: name, grade: Number(grade), profile_img:"" })
+        );
         setSelectedStudentId(res.data.id);
         handleClose();
       })
       .catch((error) => {
-        if (error.response.status === 400) {
+        if (error.response.status === 401) {
+          tokenExpire();
+        } else if (error.response.status === 400) {
           toast.error(error.response.data.message);
         } else {
           toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");

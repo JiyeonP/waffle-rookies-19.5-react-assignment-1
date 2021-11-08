@@ -1,4 +1,4 @@
-import "./DetailPage.css";
+import styles from "./DetailPage.module.css";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Profile from "./Profile/Profile";
@@ -11,12 +11,14 @@ import { toast } from "react-toastify";
 import API from "../API";
 import { PuffLoader } from "react-spinners";
 import { css } from "@emotion/react";
+import { useAuthContext } from "../Context/AuthContext";
 
 const DetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [targetStudent, setTargetStudent] = useState({});
-  const [changedStudent, setChangedStudent] = useState(targetStudent);
+  const [changedStudent, setChangedStudent] = useState({});
   const [deleteClicked, setDeleteClicked] = useState(false);
+  const { tokenExpire } = useAuthContext();
   const params = useParams();
   const history = useHistory();
 
@@ -40,7 +42,9 @@ const DetailPage = () => {
         setLoading(false);
       })
       .catch((error) => {
-        if (error.response.status === 400) {
+        if (error.response.status === 401) {
+          tokenExpire();
+        } else if (error.response.status === 400) {
           toast.error(error.response.data.message);
           history.push("/students");
         } else {
@@ -85,13 +89,11 @@ const DetailPage = () => {
   };
 
   const handleMajorChange = (e) => {
-    let newChangedStudent = {};
     if (e.target.value === "not assigned") {
-      newChangedStudent = { ...changedStudent, major: null };
+      setChangedStudent({ ...changedStudent, major: null });
     } else {
-      newChangedStudent = { ...changedStudent, major: e.target.value };
+      setChangedStudent({ ...changedStudent, major: e.target.value });
     }
-    setChangedStudent(newChangedStudent);
   };
 
   const handleProfileImgChange = (e) => {
@@ -105,19 +107,19 @@ const DetailPage = () => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      await API.patch(`student/${params.id}`, changedStudent);
+      const response1 = await API.patch(`student/${params.id}`, changedStudent);
       const response2 = await API.get(`student/${params.id}`);
 
       toast.success("저장되었습니다.");
       setTargetStudent(response2.data);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       if (error.response.status === 400) {
         toast.error(error.response.data.message);
       } else {
         toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
       }
+      setLoading(false);
     }
   };
 
@@ -140,10 +142,13 @@ const DetailPage = () => {
           toast.success(
             "잠금 설정했습니다. 이제 학생 정보를 수정하실 수 없습니다."
           );
+          setTargetStudent({ ...targetStudent, locked: true });
           setLoading(false);
         })
         .catch((error) => {
-          if (error.response.status === 400) {
+          if (error.response.status === 401) {
+            tokenExpire();
+          } else if (error.response.status === 400) {
             toast.error(error.response.data.message);
           } else {
             toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -157,10 +162,13 @@ const DetailPage = () => {
           toast.success(
             "잠금 해제했습니다. 이제 학생 정보를 수정하실 수 있습니다."
           );
+          setTargetStudent({ ...targetStudent, locked: false });
           setLoading(false);
         })
         .catch((error) => {
-          if (error.response.status === 400) {
+          if (error.response.status === 401) {
+            tokenExpire();
+          } else if (error.response.status === 400) {
             toast.error(error.response.data.message);
           } else {
             toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -168,7 +176,6 @@ const DetailPage = () => {
           setLoading(false);
         });
     }
-    setTargetStudent({ ...targetStudent, locked: !targetStudent.locked });
   };
 
   const handleCancel = () => {
@@ -182,7 +189,9 @@ const DetailPage = () => {
         setLoading(false);
       })
       .catch((error) => {
-        if (error.response.status === 400) {
+        if (error.response.status === 401) {
+          tokenExpire();
+        } else if (error.response.status === 400) {
           toast.error(error.response.data.message);
         } else {
           toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
@@ -190,11 +199,12 @@ const DetailPage = () => {
         setLoading(false);
       });
     history.push("/students");
+    toast.success("학생 데이터를 삭제했습니다.");
   };
 
   return (
-    <div className="detailWrapper">
-      <div className="detailPage">
+    <div className={styles.detailWrapper}>
+      <div className={styles.detailPage}>
         <Buttons
           targetStudent={targetStudent}
           handleCancel={handleCancel}

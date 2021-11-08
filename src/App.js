@@ -9,6 +9,7 @@ import API from "./API";
 import { PuffLoader } from "react-spinners";
 import { css } from "@emotion/react";
 import { toast } from "react-toastify";
+import {useCookies} from "react-cookie";
 const mainLoaderCss = css`
   position: absolute;
   top: 250px;
@@ -16,10 +17,12 @@ const mainLoaderCss = css`
 `;
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(["tokenAvailable"]);
   const [loading, setLoading] = useState(true);
   const { login, setLogin } = useAuthContext();
 
   useEffect(() => {
+    setLoading(true);
     if (localStorage.getItem("token") !== "none") {
       API.get("/auth/check_token", {
         headers: {
@@ -27,29 +30,28 @@ function App() {
         },
       })
         .then((res) => {
-          API.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${localStorage.getItem("token")}`;
           setLogin(true);
+          setLoading(false);
         })
         .catch((error) => {
-          console.log(error.response.status);
           if (error.response.status === 401) {
-            toast.error("토큰이 만료되었습니다.");
+            if (login === true){
+              toast.error("토큰이 만료되었습니다.");
+            }
             localStorage.setItem("token", "none");
           } else {
             toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
           }
-          API.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${localStorage.getItem("token")}`;
-          setLogin(true);
           setLogin(false);
+          setLoading(false);
         });
     } else {
       setLogin(false);
+      setLoading(false);
     }
-    setLoading(false);
+    API.defaults.headers.common[
+        "Authorization"
+        ] = `Bearer ${localStorage.getItem("token")}`;
   }, []);
 
   if (login === undefined) {
@@ -78,6 +80,7 @@ function App() {
             {login ? (
               <Switch>
                 <Route path="/students" component={MainPage} exact={true} />
+                <Route path="/student/:id" component={DetailPage} />
                 <Route path="/student/:id" component={DetailPage} />
                 <Redirect to="/students" />
               </Switch>

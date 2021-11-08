@@ -12,7 +12,24 @@
 .dashBoardSlot {
   margin: 30px;
   width: 400px;
+  top: 10px;
   color: #222222;
   font-weight: bold;
   font-size: 15px;
+}
+
+.barChartWrapper {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  left: 50px;
+  top: -27px;
+}
+
+.pieChartWrapper {
+  position: relative;
+  width: 250px;
+  height: 150px;
+  left: -210px;
+  top: 10px;
 }

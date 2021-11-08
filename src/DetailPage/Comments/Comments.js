@@ -1,16 +1,19 @@
 import "./Comments.css";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import API from "../../API";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
+import {useAuthContext} from "../../Context/AuthContext";
 
-const Comments = ({ targetStudent }) => {
+const Comments = ({targetStudent}) => {
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
+  const [pageNum, setPageNum] = useState(1);
   const [newComment, setNewComment] = useState("");
-
+  const commentsRef = useRef(null);
+  const { tokenExpire } = useAuthContext();
   const commentLoaderCss = css`
     position: absolute;
     top: 165px;
@@ -18,51 +21,77 @@ const Comments = ({ targetStudent }) => {
   `;
 
   useEffect(() => {
-    setLoading(true);
-    if (targetStudent.id === undefined) {
-    } else {
-      API.get(`/student/${targetStudent.id}/comment`)
-        .then((res) => {
-          setComments(res.data.data);
-          console.log("???");
-          setLoading(false);
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            toast.error(error.response.data.message);
-          } else {
-            toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
-          }
-          setLoading(false);
-        });
+    if (targetStudent.id !== undefined) {
+      getFirstPage();
     }
   }, [targetStudent]);
+
+  const getFirstPage = () => {
+    setLoading(true);
+    commentsRef.current.scrollTo(0, 0);
+    API.get(`/student/${targetStudent.id}/comment?page=1`)
+      .then((res) => {
+        setComments(res.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 401){
+          tokenExpire();
+        } else if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+        }
+        setLoading(false);
+      });
+  };
 
   const handleNewComment = (e) => {
     setNewComment(e.target.value);
   };
 
-  const addComments = async () => {
-    setLoading(true);
+  const addComment = async () => {
     try {
-      await API.post(`/student/${targetStudent.id}/comment`, {
+      const response1 = await API.post(`/student/${targetStudent.id}/comment`, {
         content: newComment,
       });
+      const response2 = await getFirstPage();
     } catch (error) {
-      toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+      if (error.response.status === 401){
+        tokenExpire();
+      } else {
+        toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
+      }
     }
     setNewComment("");
+  };
+
+  const extendComments = async () => {
     try {
-      const response2 = await API.get(`/student/${targetStudent.id}/comment`);
-      setComments(response2.data.data);
-      setLoading(false);
+      const response2 = await API.get(
+        `/student/${targetStudent.id}/comment?page=${pageNum+1}`
+      );
+      if (response2.data.data.length !== 0){
+        setComments([...comments, ...response2.data.data]);
+      }
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response.status === 401){
+        tokenExpire();
+      } else if (error.response.status === 400) {
         toast.error(error.response.data.message);
       } else {
         toast.error("오류가 발생하였습니다. 서버에 문의하십시오.");
       }
-      setLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    const scrollHeight = commentsRef.current.scrollHeight;
+    const scrollTop = commentsRef.current.scrollTop;
+    const clientHeight = commentsRef.current.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight-200) {
+      extendComments();
+      setPageNum(pageNum+1);
     }
   };
 
@@ -74,15 +103,14 @@ const Comments = ({ targetStudent }) => {
           color="#88dd88"
           loading={loading}
           size={100}
-          sizeUnit={"px"}
           css={commentLoaderCss}
         />
-        <ul className="comments">
+        <ul ref={commentsRef} className="comments" onScroll={handleScroll}>
           {comments.map((item) => (
             <li key={item.id} className="comment">
               <p className="commentContents">{item.content}</p>
               <p className="commentTime">
-                {dayjs(item.datetime).format("MM월 DD일 HH시 mm분")}
+                {dayjs(item.dateTime).format("MM월 DD일 HH시 mm분")}
               </p>
             </li>
           ))}
@@ -95,11 +123,12 @@ const Comments = ({ targetStudent }) => {
           className="commentInput"
           onKeyPress={(e) => {
             if (e.key === "Enter") {
-              addComments();
+              addComment();
             }
           }}
+          disabled={targetStudent.locked}
         />
-        <button onClick={addComments} className="commentInputButton">
+        <button onClick={addComment} className="commentInputButton">
           작성
         </button>
       </div>
