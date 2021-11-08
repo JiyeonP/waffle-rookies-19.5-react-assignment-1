@@ -1,8 +1,8 @@
 .header {
   position: relative;
   height: 76px;
-  left: 20px;
-  top: 30px;
+  margin-left: 20px;
+  margin-top: 30px;
   display: flex;
 }
 

@@ -2,34 +2,16 @@ import "./ControlBar.css";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const ControlBar = () => {
+const ControlBar = ({ searchKeys }) => {
   const history = useHistory();
-  const [searchName, setSearchName] = useState("");
-  const [searchGrade, setSearchGrade] = useState("");
+  const [searchName, setSearchName] = useState(searchKeys.get("name"));
+  const [searchGrade, setSearchGrade] = useState(searchKeys.get("grade"));
 
   const goSearched = () => {
-    if (searchName.length !== 0) {
-      if (searchGrade.length !== 0) {
-        history.push({
-          pathname: "/students",
-          search: `?name=${searchName}&grade=${searchGrade}`,
-        });
-      } else {
-        history.push({
-          pathname: "/students",
-          search: `?name=${searchName}`,
-        });
-      }
-    } else {
-      if (searchGrade.length !== 0) {
-        history.push({
-          pathname: "/students",
-          search: `grade=${searchGrade}`,
-        });
-      } else {
-        history.push("/students");
-      }
-    }
+    const newParams = new URLSearchParams();
+    searchGrade && newParams.set("grade", searchGrade);
+    searchName && newParams.set("name", searchName);
+    history.push({ pathname: "/students", search: `${newParams}` });
   };
 
   const handleName = (e) => {

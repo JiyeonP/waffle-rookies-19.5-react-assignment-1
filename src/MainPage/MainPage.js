@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import DashBoard from "./DashBoard/DashBoard";
-import ControlBar from "./StudentList/ControlBar";
+import ControlBar from "./ControlBar/ControlBar";
 import StudentList from "./StudentList/StudentList";
 import ViewProfile from "./ViewProfile/ViewProfile";
 import AddStudent from "./AddStudent/AddStudent";
@@ -15,6 +15,33 @@ import { useLocation } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import styled from "styled-components";
 
+const mainLoaderCss1 = css`
+  position: absolute;
+  top: 250px;
+  left: calc(50% - 170px);
+`;
+const mainLoaderCss2 = css`
+  position: absolute;
+  top: 250px;
+  left: calc(50% + 20px);
+`;
+
+const Wrapper = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+`;
+
+const Main = styled.div`
+  margin: auto;
+  height: 100%;
+  width: 760px;
+  top: 20px;
+  background-color: white;
+`;
+
 const MainPage = () => {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
@@ -26,41 +53,6 @@ const MainPage = () => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["popUpClose24"]);
   const [showPopUp, setShowPopUp] = useState(true);
-
-  const mainLoaderCss1 = css`
-    position: absolute;
-    top: 250px;
-    left: calc(50% - 170px);
-  `;
-  const mainLoaderCss2 = css`
-    position: absolute;
-    top: 250px;
-    left: calc(50% + 20px);
-  `;
-
-  const Wrapper = styled.div`
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-  `;
-
-  const Main = styled.div`
-    margin: auto;
-    height: 100%;
-    width: 760px;
-    top: 20px;
-    background-color: white;
-  `;
-
-  const DivideLine = styled.div`
-    margin: auto;
-    height: 100%;
-    width: 760px;
-    top: 20px;
-    background-color: white;
-  `;
 
   useEffect(() => {
     if (cookies.popUpClose24) {
@@ -105,7 +97,7 @@ const MainPage = () => {
       <Main>
         <Header />
         <DashBoard studentList={studentList} />
-        <ControlBar />
+        <ControlBar searchKeys={params} />
         <StudentList
           studentList={studentList}
           selectedStudentId={selectedStudentId}
@@ -113,9 +105,8 @@ const MainPage = () => {
           searchKeys={params}
           handleAddStudent={handleAddStudent}
         />
-        <DivideLine />
         <ViewProfile
-            studentList={studentList}
+          studentList={studentList}
           selectedStudentId={selectedStudentId}
         />
         <AddStudent

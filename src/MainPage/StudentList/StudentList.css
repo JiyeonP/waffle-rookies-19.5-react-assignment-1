@@ -1,9 +1,9 @@
 .listBox {
   position: relative;
-  width: calc(50% - 30px);
+  width: 350px;
   height: 350px;
   left: 20px;
-  top: 110px;
+  margin-top: 10px;
 
   border: 1px solid #c7c7c7;
   box-sizing: border-box;
@@ -55,8 +55,7 @@
 
 .addButton {
   position: relative;
-  width: calc(50% - 30px);
+  width: 350px;
   left: 20px;
-  top: 110px;
   height: 25px;
 }

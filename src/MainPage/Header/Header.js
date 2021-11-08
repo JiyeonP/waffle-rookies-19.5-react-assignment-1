@@ -2,15 +2,7 @@ import "./Header.css";
 import { useAuthContext } from "../../Context/AuthContext";
 import styled from "styled-components";
 
-const Header = () => {
-  const { setLogin } = useAuthContext();
-
-  const Logout = () => {
-    localStorage.setItem("token", "none");
-    setLogin(false);
-  };
-
-  const Header = styled.div`
+const WaffleHeader = styled.div`
     position: relative;
     height: 30px;
     left: 20px;
@@ -18,14 +10,14 @@ const Header = () => {
     display: flex;
   `;
 
-  const WaffleLogo = styled.img`
+const WaffleLogo = styled.img`
     position: absolute;
     width: 54px;
     height: 58px;
     left: 4px;
   `;
 
-  const Title = styled.p`
+const Title = styled.p`
     position: absolute;
     width: 380px;
     height: 31px;
@@ -33,13 +25,12 @@ const Header = () => {
     top: 16px;
     margin: 0px;
     padding: 0px;
-
-    font-family: Abel;
+  
     font-size: 24px;
     line-height: 31px;
   `;
 
-  const LogoutButton = styled.button`
+const LogoutButton = styled.button`
     position: relative;
     width: 70px;
     height: 30px;
@@ -56,8 +47,16 @@ const Header = () => {
     }
   `;
 
+const Header = () => {
+  const { setLogin } = useAuthContext();
+
+  const Logout = () => {
+    localStorage.setItem("token", "none");
+    setLogin(false);
+  };
+
   return (
-    <Header>
+    <WaffleHeader>
       <a href="https://wafflestudio.com/" target="_blank">
         <WaffleLogo
           src="https://wafflestudio.com/_next/image?url=%2Fimages%2Ficon_intro.svg&w=640&q=75"
@@ -66,7 +65,7 @@ const Header = () => {
       </a>
       <Title>와플고등학교 명단 관리 프로그램</Title>
       <LogoutButton onClick={Logout}>Logout</LogoutButton>
-    </Header>
+    </WaffleHeader>
   );
 };
 
