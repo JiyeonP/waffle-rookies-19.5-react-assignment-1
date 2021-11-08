@@ -47,8 +47,9 @@
 .infoIndex {
   position: relative;
   width: 60px;
+  height: 26px;
   left: 10px;
-  line-height: 0px;
+  line-height: 10px;
 
   font-weight: bold;
   font-size: 10px;
@@ -58,7 +59,7 @@
   position: relative;
   width: 200px;
   height: 18px;
-  padding: 1px;
+  padding: 4px;
 
   font-size: 10px;
   background: #f4f4f4;
@@ -67,9 +68,9 @@
 
 .infoSelect {
   position: relative;
-  width: 204px;
-  height: 22px;
-  padding: 1px;
+  width: 210px;
+  height: 26px;
+  padding: 5px;
 
   font-size: 10px;
   background: #f4f4f4;

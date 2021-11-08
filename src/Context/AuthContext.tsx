@@ -8,9 +8,9 @@ import {
 import { toast } from "react-toastify";
 import API from "../API";
 
-const AuthContext = createContext<authContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-type authContextType = {
+type AuthContextType = {
   login: boolean;
   setLogin: Dispatch<SetStateAction<boolean>>;
   tokenExpire: () => void;
@@ -43,4 +43,4 @@ export const ContextProvider = ( {children} : {children: ReactNode} ) => {
   );
 };
 
-export const useAuthContext = () => useContext(AuthContext) as authContextType;
+export const useAuthContext = () => useContext(AuthContext) as AuthContextType;

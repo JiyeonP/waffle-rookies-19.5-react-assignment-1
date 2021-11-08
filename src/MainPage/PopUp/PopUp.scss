@@ -1,7 +1,7 @@
 .popUpBox {
-  position: absolute;
+  position: fixed;
   top: 100px;
-  left: 100px;
+  left: calc(50% - 400px);
   width: 300px;
   height: 270px;
 

@@ -3,8 +3,9 @@ import { useAuthContext } from "../Context/AuthContext";
 import API from "../API";
 import {ChangeEvent, useState} from "react";
 import { toast } from "react-toastify";
+import {AxiosResponse} from "axios";
 
-type authResType = {
+type AuthResType = {
   access_token: string;
 }
 
@@ -14,12 +15,11 @@ const LoginPage = () => {
   const { setLogin } = useAuthContext();
 
   const handleLogin = () => {
-    API.post("/auth/login", {
+    API.post<{username: string, password:string}, AxiosResponse<AuthResType>>("/auth/login", {
       username: userId,
       password: userPassword,
     })
       .then((res) => {
-        // @ts-ignore
         localStorage.setItem("token", res.data.access_token);
         if (API.defaults.headers !== undefined){
           API.defaults.headers.common[

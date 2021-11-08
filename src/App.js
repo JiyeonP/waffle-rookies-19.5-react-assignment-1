@@ -81,7 +81,6 @@ function App() {
               <Switch>
                 <Route path="/students" component={MainPage} exact={true} />
                 <Route path="/student/:id" component={DetailPage} />
-                <Route path="/student/:id" component={DetailPage} />
                 <Redirect to="/students" />
               </Switch>
             ) : (

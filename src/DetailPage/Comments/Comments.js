@@ -12,6 +12,7 @@ const Comments = ({targetStudent}) => {
   const [comments, setComments] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [newComment, setNewComment] = useState("");
+  const [commentLeft, setCommentLeft] = useState(true);
   const commentsRef = useRef(null);
   const { tokenExpire } = useAuthContext();
   const commentLoaderCss = css`
@@ -29,9 +30,12 @@ const Comments = ({targetStudent}) => {
   const getFirstPage = () => {
     setLoading(true);
     commentsRef.current.scrollTo(0, 0);
-    API.get(`/student/${targetStudent.id}/comment?page=1`)
+    API.get(`/student/${targetStudent.id}/comment`, {params: {page : 1}})
       .then((res) => {
         setComments(res.data.data);
+        if (res.data.next === null){
+          setCommentLeft(false);
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -52,10 +56,10 @@ const Comments = ({targetStudent}) => {
 
   const addComment = async () => {
     try {
-      const response1 = await API.post(`/student/${targetStudent.id}/comment`, {
+      await API.post(`/student/${targetStudent.id}/comment`, {
         content: newComment,
       });
-      const response2 = await getFirstPage();
+      await getFirstPage();
     } catch (error) {
       if (error.response.status === 401){
         tokenExpire();
@@ -68,11 +72,15 @@ const Comments = ({targetStudent}) => {
 
   const extendComments = async () => {
     try {
-      const response2 = await API.get(
+      console.log(commentLeft);
+      const response = await API.get(
         `/student/${targetStudent.id}/comment?page=${pageNum+1}`
       );
-      if (response2.data.data.length !== 0){
-        setComments([...comments, ...response2.data.data]);
+      if (response.data.next === null) {
+        setCommentLeft(false);
+      }
+      if (response.data.data.length !== 0){
+        setComments([...comments, ...response.data.data]);
       }
     } catch (error) {
       if (error.response.status === 401){
@@ -89,7 +97,7 @@ const Comments = ({targetStudent}) => {
     const scrollHeight = commentsRef.current.scrollHeight;
     const scrollTop = commentsRef.current.scrollTop;
     const clientHeight = commentsRef.current.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight-200) {
+    if (commentLeft && scrollTop + clientHeight >= scrollHeight-200) {
       extendComments();
       setPageNum(pageNum+1);
     }
